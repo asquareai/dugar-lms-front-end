@@ -131,13 +131,13 @@ const MainDashboardLayout = () => {
                     </p>
                     <div className="space-y-3">
                       {[
-                        { task: "Complete KYC Audit for case 14235", priority: "High" },
-                        { task: "Collect bank statement for case 14531", priority: "Medium" },
-                        { task: "Update contact details for case 14600", priority: "Low" }
+                        { task: "Complete KYC Audit for case 14235", priority: "High Priority" },
+                        { task: "Collect bank statement for case 14531", priority: "Medium Priority" },
+                        { task: "Update contact details for case 14600", priority: "Low Priority" }
                       ].map((item, i) => {
                         const getPriorityStyles = (p) => {
-                          if (p === 'High') return 'bg-rose-600 text-white border-rose-700';
-                          if (p === 'Medium') return 'bg-[#D97706] text-white border-amber-700';
+                          if (p === 'High Priority') return 'bg-rose-600 text-white border-rose-700';
+                          if (p === 'Medium Priority') return 'bg-[#0052CC] text-white border-[#003D99]';
                           return 'bg-[#059669] text-white border-emerald-700';
                         };
 
@@ -189,12 +189,40 @@ const WelcomeDashboard = () => {
     { d: '15', v: 48 }, { d: '20', v: 35 }, { d: '25', v: 62 }, { d: '30', v: 55 }
   ];
   
-  const metrics = [
-    { label: 'NPA Percentage', count: '2.45%', icon: <AlertCircle size={18} />, bg: 'bg-[#0052CC]', trend: '-0.2%' },
-    { label: 'Litigation Cases', count: '42', icon: <CheckSquare size={18} />, bg: 'bg-[#D97706]', trend: '+2' },
-    { label: 'Repo Inventory', count: '18', icon: <Wallet size={18} />, bg: 'bg-[#059669]', trend: 'Stable' },
-    { label: 'Average IRR', count: '14.8%', icon: <TrendingUp size={18} />, bg: 'bg-[#7C3AED]', trend: '+0.5%' },
-  ];
+const metrics = [
+  { 
+    label: 'NPA Percentage', 
+    count: '2.45%', 
+    icon: <AlertCircle size={18} />, 
+    // bg-[#0052CC]/15 creates a light blue tint
+    bg: 'bg-[#0052CC]/65 border-[#0052CC]/30 text-[#0052CC]', 
+    trend: '-0.2%' 
+  },
+  { 
+    label: 'Litigation Cases', 
+    count: '42', 
+    icon: <CheckSquare size={18} />, 
+    // bg-[#D97706]/15 creates a light amber tint
+    bg: 'bg-[#D97706]/65 border-[#D97706]/30 text-[#D97706]', 
+    trend: '+2' 
+  },
+  { 
+    label: 'Repo Inventory', 
+    count: '18', 
+    icon: <Wallet size={18} />, 
+    // bg-[#059669]/15 creates a light emerald tint
+    bg: 'bg-[#059669]/65 border-[#059669]/30 text-[#059669]', 
+    trend: 'Stable' 
+  },
+  { 
+    label: 'Average IRR', 
+    count: '14.8%', 
+    icon: <TrendingUp size={18} />, 
+    // bg-[#7C3AED]/15 creates a light purple tint
+    bg: 'bg-[#7C3AED]/65 border-[#7C3AED]/30 text-[#7C3AED]', 
+    trend: '+0.5%' 
+  },
+];
 
   // Modified Custom Legend: Vertical placement for side display
   // Modified Custom Legend: Single-line label and data for side display
@@ -279,10 +307,10 @@ const CustomPieLegend = ({ payload }) => {
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-6">
                 <div className="bg-white/20 backdrop-blur-md text-white p-3 rounded-2xl shadow-lg">{m.icon}</div>
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-black/20 text-white border border-white/10">{m.trend}</span>
+                <span className="text-[24px] font-bold px-2.5 py-1 rounded bg-black/20 text-white border border-white/10">{m.trend}</span>
               </div>
               <p className="text-3xl font-bold text-white mb-1 tracking-tight">{m.count}</p>
-              <p className="text-[11px] font-bold text-white uppercase tracking-[0.1em]">{m.label}</p>
+              <p className="text-[24px] font-bold text-white uppercase tracking-[0.1em]">{m.label}</p>
             </div>
           </div>
         ))}
@@ -290,8 +318,8 @@ const CustomPieLegend = ({ payload }) => {
 
       <div className="grid grid-cols-3 gap-6">
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-          <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
-            <LayoutDashboard size={14} className="text-[#0052CC]" /> Active Loans
+          <h3 className="text-[24px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <LayoutDashboard size={24} className="text-[#0052CC]" /> Active Loans (4350)
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -312,8 +340,8 @@ const CustomPieLegend = ({ payload }) => {
 
         {/* PIE CHART WITH RIGHT-SIDE LEGEND */}
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-           <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
-            <CircleDot size={14} className="text-[#059669]" /> AUM
+           <h3 className="text-[24px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <CircleDot size={14} className="text-[#059669]" /> AUM (300 Cr)
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -342,8 +370,8 @@ const CustomPieLegend = ({ payload }) => {
         </div>
 
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-           <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
-            <TrendingUp size={14} className="text-[#D97706]" /> Disbursement MTD
+           <h3 className="text-[24px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <TrendingUp size={14} className="text-[#D97706]" /> Disbursement MTD (5 Cr)
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -378,9 +406,9 @@ function App() {
         <Route element={<ProtectedRoute><MainDashboardLayout /></ProtectedRoute>}>
           <Route path="/dashboard" element={<WelcomeDashboard />} />
           <Route path="/credit/masters/party-code" element={<PartyCodeModify />} />
-          <Route path="/credit/transaction/contract/edit" element={<ContractGrid />} />
-          <Route path="/credit/transaction/contract/form" element={<ContractEditForm />} />
-          <Route path="/accounts/transaction/entry/receipt" element={<ReceiptVoucher />} />
+          <Route path="/credit/trans/contract/edit" element={<ContractGrid />} />
+          <Route path="/credit/trans/contract/form" element={<ContractEditForm />} />
+          <Route path="/accounts/trans/voucher/receipt" element={<ReceiptVoucher />} />
           <Route path="/accounts/reports/ratios" element={<Ratios />} />
           <Route path="*" element={<div className="p-20 text-center"><h2 className="text-2xl font-bold text-black">404: Module Not Found</h2></div>} />
         </Route>

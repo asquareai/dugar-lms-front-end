@@ -48,7 +48,7 @@ const RatioDashboard = () => {
           >
             {/* BRAND BLUE CODE TAG */}
             <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
-              <span className="bg-[#1e3a8a] text-white text-[12px] font-black px-4 py-1 rounded-sm tracking-[0.15em] uppercase shadow-sm">
+              <span className="bg-[#1e3a8a] text-white text-[24px] font-black px-4 py-1 rounded-sm tracking-[0.15em] uppercase shadow-sm">
                 {ratio.code}
               </span>
             </div>

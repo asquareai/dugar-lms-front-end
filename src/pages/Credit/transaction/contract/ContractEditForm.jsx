@@ -18,7 +18,7 @@ const FormField = ({ label, placeholder, type = "text", className = "" }) => (
       type={type} 
       placeholder={placeholder} 
       /* Changed border and text size */
-      className="border border-black/60 px-2 py-1 text-[14px] font-normal text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full transition-all" 
+      className="border border-black/60 px-2 py-1 text-[16px] font-black text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full transition-all" 
     />
   </div>
 );
@@ -33,7 +33,7 @@ const FormSelect = ({ label, options, value, onChange, className = "" }) => (
       value={value} 
       onChange={onChange} 
       /* Standardized font size and border opacity */
-      className="border border-black/60 px-2 py-1 text-[14px] font-normal text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full h-[36px] cursor-pointer transition-all"
+      className="border border-black/60 px-2 py-1 text-[16px] font-black text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full h-[36px] cursor-pointer transition-all"
     >
       <option value="">Select</option>
       {options.map(opt => <option key={opt} value={opt} className="text-[14px]">{opt}</option>)}
@@ -51,8 +51,8 @@ const EntityBlock = ({ title, icon: Icon, typeKey, customerType, onTypeChange, i
 >
     {/* Header with Brand Blue Gradient - Text Black 90 */}
     <div className="flex items-center gap-2 px-3 py-1.5 rounded-t-lg border border-black/60 bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] shadow-sm">
-      <Icon size={16} className="text-black/90" />
-      <span className="text-[14px] font-normal text-black/90 uppercase tracking-wide">{title}</span>
+      <Icon size={24} className="text-black/90" />
+      <span className="text-[16px] font-blacktext-black/90 font-black uppercase tracking-wide">{title}</span>
     </div>
 
     {/* Identification Section */}
@@ -184,30 +184,38 @@ const ContractEditForm = () => {
           <div className="h-6 w-[1px] bg-black/20 mx-2"></div>
           
           <div className="flex items-center gap-6">
-            {/* Proposal Category - Light Green */}
-            <div className="flex items-center gap-2">
-              <span className="text-[14px] font-black text-black/80 uppercase">Proposal Category:</span>
-              <select 
-                value={proposalCat} 
-                onChange={(e) => setProposalCat(e.target.value)} 
-                className="text-[14px] font-bold border border-green-600/40 rounded-sm px-2 outline-none focus:border-green-600 bg-green-50 h-8 min-w-[60px] text-green-800"
-              >
-                <option>A</option><option>B</option><option>C</option>
-              </select>
-            </div>
-            
-            {/* Risk Level - Light Orange */}
-            <div className="flex items-center gap-2">
-              <span className="text-[14px] font-black text-black/80 uppercase">Risk Level:</span>
-              <select 
-                value={riskLevel} 
-                onChange={(e) => setRiskLevel(e.target.value)} 
-                className="text-[14px] font-bold border border-orange-600/40 rounded-sm px-2 outline-none focus:border-orange-600 bg-orange-50 h-8 text-orange-800"
-              >
-                <option>Low</option><option>Medium</option><option>High</option>
-              </select>
-            </div>
-          </div>
+  {/* Proposal Category - High Impact Green */}
+  <div className="flex items-center overflow-hidden border-2 border-emerald-600 rounded shadow-sm">
+    <span className="bg-emerald-600 text-white px-3 h-9 flex items-center text-[13px] font-black uppercase tracking-tighter">
+      Category
+    </span>
+    <select 
+      value={proposalCat} 
+      onChange={(e) => setProposalCat(e.target.value)} 
+      className="text-[15px] font-black px-4 outline-none bg-white h-9 min-w-[65px] text-emerald-900 cursor-pointer hover:bg-emerald-50 transition-colors"
+    >
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+  </div>
+  
+  {/* Risk Level - High Impact Orange/Amber */}
+  <div className="flex items-center overflow-hidden border-2 border-amber-500 rounded shadow-sm">
+    <span className="bg-amber-500 text-black px-3 h-9 flex items-center text-[13px] font-black uppercase tracking-tighter">
+      Risk Level
+    </span>
+    <select 
+      value={riskLevel} 
+      onChange={(e) => setRiskLevel(e.target.value)} 
+      className="text-[15px] font-black px-4 outline-none bg-white h-9 text-amber-900 cursor-pointer hover:bg-amber-50 transition-colors"
+    >
+      <option>LOW</option>
+      <option>MEDIUM</option>
+      <option>HIGH</option>
+    </select>
+  </div>
+</div>
         </div>
 
         <div className="flex gap-2 items-center">
@@ -271,7 +279,7 @@ const ContractEditForm = () => {
       <div className="p-2 w-full">
        {activeTab === 'Borrower Details' && (
     <div 
-        className="w-full space-y-8 pb-32 px-4" 
+        className="max-w-5xl space-y-8 pb-32 px-4" 
         style={{ 
           fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif',
           color: 'rgba(0, 0, 0, 0.9)' 
@@ -281,7 +289,7 @@ const ContractEditForm = () => {
       title="Primary Borrower" 
       icon={User} 
       typeKey="primary" 
-      colorClass="bg-sky-100 text-black border border-slate-400" 
+      colorClass="bg-sky-100 text-black border border-slate-800" 
       customerType={types.primary} 
       onTypeChange={handleTypeChange} 
       indianStates={indianStates} 
@@ -321,7 +329,7 @@ const ContractEditForm = () => {
 
         {activeTab === 'Asset Details' && (
           <div 
-            className="w-full space-y-6 pb-32 px-4" 
+            className="max-w-5xl space-y-6 pb-32 px-4" 
             style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
           >
             {/* Top Asset/Product Type Selector */}
@@ -335,11 +343,11 @@ const ContractEditForm = () => {
               <div className="space-y-4">
                 {/* Brand Blue Gradient Header */}
                 <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
-                  <Car size={16} className="text-black/90" />
-                  <span className="text-[14px] font-normal uppercase tracking-wide">Vehicle Specifications</span>
+                  <Car size={24} className="text-black/90" />
+                  <span className="text-[16px] font-black uppercase tracking-wide">Vehicle Specifications</span>
                 </div>
                 <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
-                  <FormSelect label="Vehicle Type" options={["Car", "SCV", "HCV", "Two Wheeler"]} />
+                  <FormSelect label="Vehicle Type" options={["Car", "SCV", "HCV", "Three Wheeler"]} />
                   <FormSelect label="Deal of Assets" options={["Purchase", "Refinance"]} />
                   <FormField label="Make of Vehicle" />
                   <FormField label="Version" />
@@ -355,7 +363,7 @@ const ContractEditForm = () => {
 
                 <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
                   <ShieldCheck size={16} className="text-black/90" />
-                  <span className="text-[14px] font-normal uppercase tracking-wide">Insurance Details</span>
+                  <span className="text-[16px] font-black uppercase tracking-wide">Insurance Details</span>
                 </div>
                 <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
                   <FormField label="IDV" />
@@ -371,7 +379,7 @@ const ContractEditForm = () => {
               <div className="space-y-4">
                 <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
                   <FileText size={16} className="text-black/90" />
-                  <span className="text-[14px] font-normal uppercase tracking-wide">Property Location Details</span>
+                  <span className="text-[16px] font-black uppercase tracking-wide">Property Location Details</span>
                 </div>
                 <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
                   <FormSelect label="Property Type" options={["Residential", "Commercial", "Industrial"]} />
@@ -388,7 +396,7 @@ const ContractEditForm = () => {
               <div className="space-y-4">
                 <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
                   <ShieldCheck size={16} className="text-black/90" />
-                  <span className="text-[14px] font-normal uppercase tracking-wide">Business Details</span>
+                  <span className="text-[16px] font-black uppercase tracking-wide">Business Details</span>
                 </div>
                 <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-3 gap-4 shadow-sm rounded-b-sm">
                   <FormField label="Nature of Business" /><FormField label="Date of Incorporation" type="date" /><FormSelect label="Is it secured" options={["Yes", "No"]} />
@@ -399,15 +407,17 @@ const ContractEditForm = () => {
         )}
 
        {activeTab === 'Financial Terms' && (
-          <div className="w-full pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
+          <div className="max-w-5xl pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
           {/* 3-COLUMN MAIN GRID */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             {/* COLUMN 1: CORE FINANCIAL TERMS */}
             <div className="flex flex-col">
               <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
-                <IndianRupee size={16} className="text-black/90" /> 
-                <span className="text-[14px] font-normal uppercase tracking-wide">Financial Terms</span>
+                <IndianRupee size={24} className="text-black" /> 
+               <span className="text-[16px] font-black uppercase tracking-tight text-black">
+                Financial Terms
+              </span>
               </div>
               <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
                 <FormField label="Loan Amount" />
@@ -430,7 +440,7 @@ const ContractEditForm = () => {
             <div className="flex flex-col">
               <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
                 <RotateCcw size={16} className="text-black/90" /> 
-                <span className="text-[14px] font-normal uppercase tracking-wide">Repayment Structure</span>
+                <span className="text-[16px] font-black uppercase tracking-wide">Repayment Structure</span>
               </div>
               <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
                 {/* Step 01 */}
@@ -464,7 +474,7 @@ const ContractEditForm = () => {
             <div className="flex flex-col">
               <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
                 <ShieldCheck size={16} className="text-black/90" /> 
-                <span className="text-[14px] font-normal uppercase tracking-wide">Initial & Disbursement</span>
+                <span className="text-[16px] font-black uppercase tracking-wide">Initial & Disbursement</span>
               </div>
               <div className="bg-white border border-black/60 p-4 space-y-3 shadow-sm rounded-b-sm">
                 <div className="grid grid-cols-2 gap-3">
@@ -498,7 +508,7 @@ const ContractEditForm = () => {
 )}
       {/* 4. DOCUMENTATION DETAILS TAB */}
         {activeTab === 'Documentation Details' && (
-        <div className="w-full space-y-6 pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
+        <div className="max-w-5xl space-y-6 pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
         
         {/* ROW 1: TWO COLUMNS (BRANCH & HO) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -506,8 +516,8 @@ const ContractEditForm = () => {
           {/* COLUMN 1: BRANCH LEVEL DETAILS */}
           <div className="flex flex-col">
             <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
-              <FileText size={16} className="text-black/90" /> 
-              <span className="text-[14px] font-normal uppercase tracking-wide">Document Details at Branch Level</span>
+              <FileText size={24} className="text-black" /> 
+              <span className="text-[16px] font-black uppercase tracking-wide">Document Details at Branch Level</span>
             </div>
             <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
               <div className="grid grid-cols-2 gap-4">
@@ -540,8 +550,8 @@ const ContractEditForm = () => {
           {/* COLUMN 2: HO LEVEL DETAILS */}
           <div className="flex flex-col">
             <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
-              <ShieldCheck size={16} className="text-black/90" /> 
-              <span className="text-[14px] font-normal uppercase tracking-wide">Document Details at HO Level</span>
+              <ShieldCheck size={24} className="text-black/90" /> 
+              <span className="text-[16px] font-black uppercase tracking-wide">Document Details at HO Level</span>
             </div>
             <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
               <div className="grid grid-cols-2 gap-4">
@@ -569,14 +579,14 @@ const ContractEditForm = () => {
         <div className="flex flex-col">
           <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
             <Copy size={16} className="text-black/90" /> 
-            <span className="text-[14px] font-normal uppercase tracking-wide">Pending Document Details (Check List)</span>
+            <span className="text-[16px] font-black uppercase tracking-wide">Pending Document Details (Check List)</span>
           </div>
           <div className="bg-white border border-black/60 p-4 shadow-sm rounded-b-sm">
             <div className="flex flex-wrap gap-x-12 gap-y-4 py-2 px-2">
               {["Agreement book", "RC Book", "HYP Endorsement", "Insurance Copy", "NOC Certificate", "Permit Copy"].map((item) => (
                 <label key={item} className="flex items-center gap-3 cursor-pointer group">
                   <input type="checkbox" className="w-4 h-4 accent-blue-700 border-black/60 rounded cursor-pointer" />
-                  <span className="text-[14px] font-normal text-black/90 group-hover:text-black uppercase tracking-tight">{item}</span>
+                  <span className="text-[16px] font-black text-black/90 group-hover:text-black uppercase tracking-tight">{item}</span>
                 </label>
               ))}
             </div>
@@ -587,7 +597,7 @@ const ContractEditForm = () => {
         <div className="flex flex-col">
           <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
             <Send size={16} className="text-black/90" /> 
-            <span className="text-[14px] font-normal uppercase tracking-wide">Upload Documents Section</span>
+            <span className="text-[16px] font-black uppercase tracking-wide">Upload Documents Section</span>
           </div>
           <div className="bg-white border border-black/60 p-5 shadow-sm rounded-b-sm space-y-6">
             
@@ -605,7 +615,7 @@ const ContractEditForm = () => {
                     type="file" 
                     className="block w-full text-[14px] text-black/90 file:mr-4 file:py-1.5 file:px-4 file:rounded-sm file:border-0 file:text-[12px] file:font-normal file:bg-blue-800 file:text-white hover:file:bg-blue-900 cursor-pointer border border-black/60 bg-white shadow-sm"
                   />
-                  <button className="bg-blue-800 text-white px-8 py-1.5 text-[14px] font-normal rounded-sm uppercase hover:bg-blue-900 transition-all shadow-md active:scale-95">
+                  <button className="bg-blue-800 text-white px-8 py-1.5 text-[16px] font-black rounded-sm uppercase hover:bg-blue-900 transition-all shadow-md active:scale-95">
                     Upload
                   </button>
                 </div>
@@ -615,26 +625,26 @@ const ContractEditForm = () => {
             {/* SUB-ROW 2: DATA TABLE */}
             <div className="flex flex-col space-y-3">
               <div className="flex items-center justify-between px-1">
-                <span className="text-[14px] font-normal text-black/60 uppercase tracking-widest">Linked Attachments Registry</span>
+                <span className="text-[16px] font-black text-black/60 uppercase tracking-widest">Linked Attachments Registry</span>
                 <span className="text-[12px] text-blue-800 font-normal uppercase">Total Files: 1</span>
               </div>
               <div className="border border-black/60 rounded-sm overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] border-b border-black/60 shadow-sm">
-                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider w-24">
+                      <th className="px-4 py-3 text-[16px] font-black text-black/90 uppercase tracking-wider w-24">
                         Preview
                       </th>
-                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-[16px] font-black text-black/90 uppercase tracking-wider">
                         Document Category
                       </th>
-                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-[16px] font-black text-black/90 uppercase tracking-wider">
                         File Name
                       </th>
-                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-[16px] font-black text-black/90 uppercase tracking-wider">
                         Size
                       </th>
-                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider text-right">
+                      <th className="px-4 py-3 text-[16px] font-black text-black/90 uppercase tracking-wider text-right">
                         Actions
                       </th>
                     </tr>
@@ -673,14 +683,14 @@ const ContractEditForm = () => {
 
       {/* 5. CO LENDING DETAILS TAB */}
       {activeTab === 'Co Lending Details' && (
-        <div className="w-full pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
+        <div className="max-w-5xl pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         
         {/* COLUMN 1: MODEL & LENDER INFO */}
         <div className="flex flex-col">
           <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
             <Share2 size={16} className="text-black/90" /> 
-            <span className="text-[14px] font-normal uppercase tracking-wide">Contribution Model</span>
+            <span className="text-[16px] font-black uppercase tracking-wide">Contribution Model</span>
           </div>
           <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
             <FormSelect 
@@ -696,7 +706,7 @@ const ContractEditForm = () => {
         <div className="flex flex-col">
           <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
             <IndianRupee size={16} className="text-black/90" /> 
-            <span className="text-[14px] font-normal uppercase tracking-wide">Revenue & Risk Share</span>
+            <span className="text-[16px] font-black uppercase tracking-wide">Revenue & Risk Share</span>
           </div>
           <div className="bg-white border border-black/60 p-4 shadow-sm rounded-b-sm">
             <div className="grid grid-cols-2 gap-x-4 gap-y-4">

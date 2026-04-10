@@ -28,8 +28,8 @@ const NavItem = ({ item, depth = 0 }) => {
   const commonClasses = `
     flex items-center gap-2 transition-all duration-200 relative whitespace-nowrap uppercase tracking-tight
     ${depth === 0 
-      ? 'px-2 h-10 rounded-md text-[16px] font-bold' 
-      : 'w-full py-3 px-4 rounded-md text-[16px] font-bold'}
+      ? 'px-2 h-10 rounded-md text-[18px] font-bold' 
+      : 'w-full py-3 px-4 rounded-md text-[18px] font-bold'}
     ${isActive && depth === 0 ? 'text-[#0052CC] bg-blue-50/80' : 'text-black'}
     ${isHovered && depth === 0 ? 'text-[#0052CC] bg-blue-50/50' : ''}
     ${isHovered && depth > 0 ? 'bg-[#0052CC] text-white' : ''}

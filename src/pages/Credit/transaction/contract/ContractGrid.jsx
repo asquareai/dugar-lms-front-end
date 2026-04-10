@@ -108,7 +108,7 @@ const ContractGrid = () => {
               {/* Action Area */}
               <div className="px-4 pb-3">
                 <button 
-                  onClick={() => navigate('/credit/transaction/contract/form')} 
+                  onClick={() => navigate('/credit/trans/contract/form')} 
                   className="relative overflow-hidden w-full bg-[#E1EFFF] border-2 border-[#0052CC]/20 text-[#0052CC] py-2 rounded-lg flex items-center justify-center gap-2 text-[12px] font-black uppercase tracking-[0.1em] transition-all duration-300 hover:bg-[#0052CC] hover:text-white active:scale-[0.97] group/btn"
                 >
                   <span className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-25deg] -translate-x-full group-hover/btn:animate-[shimmer_0.75s_ease-out]" 

@@ -1,18 +1,27 @@
+/* Apply Calibri globally to ensure consistency */
+* {
+  font-family: 'Calibri', 'Candara', 'Segoe UI', 'Optima', 'Arial', sans-serif;
+}
+
 .counter {
-  font-size: 16px;
+  /* Set font to 14px and color to Black 90 */
+  font-size: 14px;
+  font-weight: 400; 
+  color: rgba(0, 0, 0, 0.9);
+  
   padding: 5px 10px;
   border-radius: 5px;
-  color: var(--accent);
   background: var(--accent-bg);
-  border: 2px solid transparent;
+  /* Border set to Black 60 */
+  border: 1px solid rgba(0, 0, 0, 0.6);
   transition: border-color 0.3s;
   margin-bottom: 24px;
 
   &:hover {
-    border-color: var(--accent-border);
+    border-color: rgba(0, 0, 0, 0.9);
   }
   &:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid rgba(0, 0, 0, 0.9);
     outline-offset: 2px;
   }
 }
@@ -63,6 +72,8 @@
   place-content: center;
   place-items: center;
   flex-grow: 1;
+  /* Ensure children inherit the Black 90 color */
+  color: rgba(0, 0, 0, 0.9);
 
   @media (max-width: 1024px) {
     padding: 32px 20px 24px;
@@ -72,8 +83,10 @@
 
 #next-steps {
   display: flex;
-  border-top: 1px solid var(--border);
+  /* Border changed to Black 60 */
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
   text-align: left;
+  color: rgba(0, 0, 0, 0.9);
 
   & > div {
     flex: 1 1 0;
@@ -96,11 +109,12 @@
 }
 
 #docs {
-  border-right: 1px solid var(--border);
+  /* Border changed to Black 60 */
+  border-right: 1px solid rgba(0, 0, 0, 0.6);
 
   @media (max-width: 1024px) {
     border-right: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -116,8 +130,10 @@
   }
 
   a {
-    color: var(--text-h);
-    font-size: 16px;
+    /* Link text to Black 90 and 14px */
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 14px;
+    font-weight: 400;
     border-radius: 6px;
     background: var(--social-bg);
     display: flex;
@@ -125,10 +141,13 @@
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    transition: box-shadow 0.3s;
+    /* Subtle border for links to match theme */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
 
     &:hover {
       box-shadow: var(--shadow);
+      background: #E1EFFF; /* Light brand blue on hover */
     }
     .button-icon {
       height: 18px;
@@ -155,7 +174,7 @@
 
 #spacer {
   height: 88px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
   @media (max-width: 1024px) {
     height: 48px;
   }
@@ -175,10 +194,12 @@
 
   &::before {
     left: 0;
-    border-left-color: var(--border);
+    /* Tick color changed to Black 60 */
+    border-left-color: rgba(0, 0, 0, 0.6);
   }
   &::after {
     right: 0;
-    border-right-color: var(--border);
+    /* Tick color changed to Black 60 */
+    border-right-color: rgba(0, 0, 0, 0.6);
   }
 }

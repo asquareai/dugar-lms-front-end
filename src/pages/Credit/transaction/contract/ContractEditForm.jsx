@@ -9,41 +9,58 @@ import { useNavigate } from 'react-router-dom';
 // --- SUB-COMPONENTS ---
 
 const FormField = ({ label, placeholder, type = "text", className = "" }) => (
-  <div className={`flex flex-col gap-0 ${className}`}>
-    <label className="text-[11px] text-slate-700 font-normal uppercase tracking-tighter leading-tight">{label}</label>
+  <div className={`flex flex-col gap-1 ${className}`} style={{ fontFamily: 'Calibri, sans-serif' }}>
+    {/* Changed from text-[11px] and slate to text-[14px] and black/90 */}
+    <label className="text-[14px] text-black/90 font-normal uppercase tracking-tight leading-tight">
+      {label}
+    </label>
     <input 
       type={type} 
       placeholder={placeholder} 
-      className="border border-slate-400 px-1.5 py-0.5 text-[14px] font-medium text-black focus:border-blue-600 outline-none bg-white rounded-sm shadow-sm w-full" 
+      /* Changed border and text size */
+      className="border border-black/60 px-2 py-1 text-[14px] font-normal text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full transition-all" 
     />
   </div>
 );
 
 const FormSelect = ({ label, options, value, onChange, className = "" }) => (
-  <div className={`flex flex-col gap-0 ${className}`}>
-    <label className="text-[11px] text-slate-700 font-normal uppercase tracking-tighter leading-tight">{label}</label>
+  <div className={`flex flex-col gap-1 ${className}`} style={{ fontFamily: 'Calibri, sans-serif' }}>
+    {/* Changed from text-[11px] and slate to text-[14px] and black/90 */}
+    <label className="text-[14px] text-black/90 font-normal uppercase tracking-tight leading-tight">
+      {label}
+    </label>
     <select 
       value={value} 
       onChange={onChange} 
-      className="border border-slate-400 px-1 py-0.5 text-[14px] font-medium text-black focus:border-blue-600 outline-none bg-white rounded-sm shadow-sm w-full h-[28px] cursor-pointer"
+      /* Standardized font size and border opacity */
+      className="border border-black/60 px-2 py-1 text-[14px] font-normal text-black/90 focus:border-blue-600 outline-none bg-white rounded-sm w-full h-[36px] cursor-pointer transition-all"
     >
       <option value="">Select</option>
-      {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+      {options.map(opt => <option key={opt} value={opt} className="text-[14px]">{opt}</option>)}
     </select>
   </div>
 );
 
-const EntityBlock = ({ title, icon: Icon, typeKey, colorClass, customerType, onTypeChange, indianStates }) => (
-    <div className="space-y-2 border-l-4 border-slate-300 pl-2">
-    <div className={`flex items-center gap-2 px-2 py-1 rounded-t-sm shadow-sm ${colorClass}`}>
-      <Icon size={14} className="text-slate-700" />
-      {/* Changed font-black to font-medium and removed uppercase for a 'normal' look */}
-      <span className="text-[13px] font-medium text-black tracking-tight">{title}</span>
+const EntityBlock = ({ title, icon: Icon, typeKey, customerType, onTypeChange, indianStates }) => (
+ <div 
+  className="space-y-3 mb-6"
+  style={{ 
+    fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif',
+    color: 'rgba(0, 0, 0, 0.9)' 
+  }}
+>
+    {/* Header with Brand Blue Gradient - Text Black 90 */}
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-t-lg border border-black/60 bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] shadow-sm">
+      <Icon size={16} className="text-black/90" />
+      <span className="text-[14px] font-normal text-black/90 uppercase tracking-wide">{title}</span>
     </div>
 
-    <div className="border border-slate-300 rounded-sm shadow-sm bg-white">
-      <div className="bg-slate-100 px-2 py-0.5 border-b border-slate-300 font-bold text-[10px] uppercase">Identification</div>
-      <div className="p-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-2">
+    {/* Identification Section */}
+    <div className="border border-black/60 rounded-sm shadow-sm bg-white overflow-hidden">
+      <div className="bg-gradient-to-b from-white to-[#F9FAFF] px-3 py-1 border-b border-black/60 font-normal text-[16px] uppercase text-black/90">
+        Identification
+      </div>
+      <div className="p-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-3">
         <FormSelect 
           label="Type of Customer" 
           options={["Individual", "Firm", "Partnership", "Pvt Ltd"]} 
@@ -52,7 +69,7 @@ const EntityBlock = ({ title, icon: Icon, typeKey, colorClass, customerType, onT
         />
         {customerType === 'Individual' ? (
           <>
-            <div className="flex gap-1 md:col-span-2">
+            <div className="flex gap-2 md:col-span-2">
               <FormSelect label="Salutation" options={["Mr", "Mrs", "M/S"]} className="w-1/4" />
               <FormField label="Full Name" className="w-3/4" />
             </div>
@@ -70,12 +87,20 @@ const EntityBlock = ({ title, icon: Icon, typeKey, colorClass, customerType, onT
       </div>
     </div>
 
-    <div className="border border-slate-300 rounded-sm shadow-sm bg-white">
-      <div className="bg-slate-100 px-2 py-0.5 border-b border-slate-300 font-bold text-[10px] uppercase flex justify-between items-center">
+    {/* Residential Address Section */}
+    <div className="border border-black/60 rounded-sm shadow-sm bg-white overflow-hidden">
+      <div className="bg-gradient-to-b from-white to-[#F9FAFF] px-3 py-1 border-b border-black/60 font-normal text-[14px] uppercase text-black/90 flex justify-between items-center">
         <span>Residential Address</span>
-        {typeKey !== 'primary' && <button type="button" className="text-[9px] text-blue-700 font-bold flex items-center gap-1 hover:bg-blue-50 px-1 rounded"><Copy size={10}/> Copy Primary</button>}
+        {typeKey !== 'primary' && (
+          <button 
+            type="button" 
+            className="text-[12px] text-blue-900 font-normal flex items-center gap-1 hover:bg-blue-50 px-2 py-0.5 border border-blue-200 rounded transition-colors"
+          >
+            <Copy size={12}/> Copy Primary
+          </button>
+        )}
       </div>
-      <div className="p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-3 gap-y-2">
+      <div className="p-3 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-3">
         <FormField label="Flat/Apt No" />
         <FormField label="Street" className="md:col-span-2" />
         <FormField label="Area" className="md:col-span-2" />
@@ -140,55 +165,115 @@ const ContractEditForm = () => {
     <div className="min-h-screen w-full bg-[#F0F2F5] text-black font-sans flex flex-col relative">
       
       {/* 1. TOP ACTION BAR (Sticky) */}
-      <div className="sticky top-0 bg-white border-b border-slate-400 px-2 py-1.5 flex items-center justify-between shadow-sm z-[100]">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate(-1)} className="hover:bg-slate-100 p-1 rounded-full"><ArrowLeft size={18} /></button>
-          <h1 className="text-sm font-black uppercase tracking-tighter italic text-blue-900 whitespace-nowrap">Contract Edit — #100254</h1>
-          <div className="h-6 w-[1px] bg-slate-300 mx-1"></div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] font-normal text-slate-500 uppercase whitespace-nowrap">Proposal Cat:</span>
-              <select value={proposalCat} onChange={(e) => setProposalCat(e.target.value)} className="text-[10px] font-bold border border-slate-300 rounded px-1 outline-none focus:border-blue-500 bg-slate-50 h-5">
-                <option>A</option><option>B</option><option>C</option>
-              </select>
+      <div 
+          className="sticky top-0 bg-white border-b border-black/60 px-4 py-2 flex items-center justify-between shadow-md z-[100]"
+          style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
+        >
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => navigate(-1)} 
+              className="hover:bg-blue-50 p-1.5 rounded-full transition-colors border border-transparent hover:border-black/10"
+            >
+              <ArrowLeft size={18} className="text-black/90" />
+            </button>
+            
+            <h1 className="text-[16px] font-bold text-blue-900 whitespace-nowrap">
+              Application Number — #100254
+            </h1>
+            
+            <div className="h-6 w-[1px] bg-black/20 mx-2"></div>
+            
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-black text-black/80 uppercase">Proposal Category:</span>
+                <select 
+                  value={proposalCat} 
+                  onChange={(e) => setProposalCat(e.target.value)} 
+                  className="text-[14px] font-normal border border-black/60 rounded-sm px-2 outline-none focus:border-blue-600 bg-white h-7 min-w-[50px] text-black/90"
+                >
+                  <option>A</option><option>B</option><option>C</option>
+                </select>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-black text-black/80 uppercase">Risk Level:</span>
+                <select 
+                  value={riskLevel} 
+                  onChange={(e) => setRiskLevel(e.target.value)} 
+                  className={`text-[14px] font-bold border border-black/60 rounded-sm px-2 outline-none bg-white h-7 ${
+                    riskLevel === 'High' ? 'text-red-600' : riskLevel === 'Medium' ? 'text-amber-600' : 'text-emerald-600'
+                  }`}
+                >
+                  <option>Low</option><option>Medium</option><option>High</option>
+                </select>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] font-normal text-slate-500 uppercase whitespace-nowrap">Risk Level:</span>
-              <select value={riskLevel} onChange={(e) => setRiskLevel(e.target.value)} className={`text-[10px] font-bold border border-slate-300 rounded px-1 outline-none bg-slate-50 h-5 ${riskLevel === 'High' ? 'text-red-600' : riskLevel === 'Medium' ? 'text-amber-600' : 'text-emerald-600'}`}>
-                <option>Low</option><option>Medium</option><option>High</option>
-              </select>
-            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button className="px-3 py-1 bg-white text-red-600 border border-red-600 text-[13px] font-normal flex items-center gap-1.5 hover:bg-red-50 rounded-sm transition-all">
+              <RotateCcw size={14} /> MOVE TO LOS
+            </button>
+            
+            <button className="px-3 py-1 bg-white text-blue-800 border border-blue-800 text-[13px] font-normal flex items-center gap-1.5 hover:bg-blue-50 rounded-sm transition-all">
+              <Save size={14} /> SAVE DRAFT
+            </button>
+            
+            <button className="px-4 py-1 bg-blue-800 text-white border border-blue-900 text-[13px] font-normal flex items-center gap-1.5 hover:bg-blue-900 rounded-sm shadow-sm transition-all">
+              <CheckCircle size={14} /> SUBMIT & CREATE CONTRACT
+            </button>
           </div>
         </div>
 
-        <div className="flex gap-1">
-          <button className="px-2 py-1 bg-red-600   text-white  border border-slate-400 text-[9px] font-bold flex items-center gap-1 hover:bg-slate-50 rounded-sm"><ResetIcon size={10} /> MOVE TO LOS</button>
-          <button className="px-2 py-1 bg-blue-600  text-white  border border-slate-400 text-[9px] font-bold flex items-center gap-1 hover:bg-slate-50 rounded-sm"><Save size={10} /> SAVE DRAFT</button>
-          <button className="px-3 py-1 bg-emerald-600 text-white text-[9px] font-bold flex items-center gap-1 hover:bg-emerald-700 rounded-sm shadow-sm"><CheckCircle size={10} /> SUBMIT & CREATE CONTRACT</button>
-        </div>
-      </div>
-
       {/* 2. TAB ROW (Sticky - Offset by Top Bar height) */}
-      <div className="sticky top-[37px] bg-white border-b border-slate-300 px-1 pt-1 flex items-end gap-1 shadow-sm z-[90]">
-        {tabs.map((tab) => (
-          <button
-            key={tab.name}
-            onClick={() => setActiveTab(tab.name)}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[12px] border-t border-x rounded-t-sm transition-all ${
-              activeTab === tab.name 
-                ? `${tab.active} ${tab.border} text-white font-bold z-10 translate-y-[1px]` 
-                : `${tab.inactive} ${tab.border} font-semibold opacity-70 hover:opacity-100 hover:bg-white text-slate-800`
-            }`}
-          >
-            {tab.icon} <span className="whitespace-nowrap tracking-tight uppercase">{tab.name}</span>
-          </button>
-        ))}
-      </div>
+    <div className="sticky top-[37px] bg-white border-b border-black/60 px-2 pt-2 flex items-end gap-1.5 shadow-sm z-[90]">
+      {tabs.map((tab) => (
+        <button
+          key={tab.name}
+          onClick={() => setActiveTab(tab.name)}
+          style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
+          className={`
+            flex items-center gap-2 px-6 py-2 text-[16px] transition-all duration-300 ease-in-out
+            rounded-t-lg border-t border-x border-black/60 uppercase tracking-wide font-normal
+            relative overflow-hidden group
+            ${activeTab === tab.name 
+              ? "bg-gradient-to-b from-[#0052CC] to-[#003D99] text-white z-10 translate-y-[1px] shadow-[0_-2px_8px_rgba(0,82,204,0.2)]" 
+              : "bg-gradient-to-b from-[#E1EFFF] to-[#D6E4FF] text-black hover:from-white hover:to-[#E1EFFF] hover:translate-y-[-1px]"
+            }
+          `}
+        >
+          {/* Subtle Shine Effect for Active Tab */}
+          {activeTab === tab.name && (
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
+          )}
+          
+          <span className={`transition-transform duration-300 ${activeTab === tab.name ? 'scale-105' : 'group-hover:scale-100'}`}>
+            {tab.icon}
+          </span>
+          
+          <span className="whitespace-nowrap tracking-tight">
+            {tab.name}
+          </span>
+        </button>
+      ))}
 
+      {/* Keyframe for the shine effect */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes shimmer {
+          100% { transform: translateX(100%); }
+        }
+      `}} />
+    </div>
       {/* 3. MAIN WORKSPACE (Natural Flow) */}
       <div className="p-2 w-full">
        {activeTab === 'Borrower Details' && (
-  <div className="max-w-[1600px] mx-auto space-y-8 pb-32">
+    <div 
+        className="w-full space-y-8 pb-32 px-4" 
+        style={{ 
+          fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif',
+          color: 'rgba(0, 0, 0, 0.9)' 
+        }}
+      >
     <EntityBlock 
       title="Primary Borrower" 
       icon={User} 
@@ -232,19 +317,25 @@ const ContractEditForm = () => {
 )}
 
         {activeTab === 'Asset Details' && (
-          <div className="max-w-[1600px] mx-auto space-y-4 pb-32">
-            <div className="bg-white border border-slate-300 rounded-sm p-3 grid grid-cols-1 md:grid-cols-2 gap-4 shadow-sm border-l-4 border-l-emerald-500">
+          <div 
+            className="w-full space-y-6 pb-32 px-4" 
+            style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
+          >
+            {/* Top Asset/Product Type Selector */}
+            <div className="bg-white border border-black/60 rounded-sm p-4 grid grid-cols-1 md:grid-cols-2 gap-4 shadow-sm">
               <FormSelect label="Type of Assets" options={["Secured", "UnSecured"]} value={assetSecured} onChange={(e) => setAssetSecured(e.target.value)} />
               <FormSelect label="Product Type" options={["Vehicles", "MSME", "LAP", "Business Loans", "Collateral"]} value={productType} onChange={(e) => setProductType(e.target.value)} />
             </div>
 
+            {/* VEHICLES SECTION */}
             {productType === 'Vehicles' && (
               <div className="space-y-4">
-                <div className="bg-emerald-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-                  
-                  <Car size={14} /> <span className="text-[12px] uppercase">Vehicle Specifications</span>
+                {/* Brand Blue Gradient Header */}
+                <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                  <Car size={16} className="text-black/90" />
+                  <span className="text-[14px] font-normal uppercase tracking-wide">Vehicle Specifications</span>
                 </div>
-                <div className="bg-white border border-slate-300 p-3 grid grid-cols-2 md:grid-cols-4 gap-3 shadow-sm">
+                <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
                   <FormSelect label="Vehicle Type" options={["Car", "SCV", "HCV", "Two Wheeler"]} />
                   <FormSelect label="Deal of Assets" options={["Purchase", "Refinance"]} />
                   <FormField label="Make of Vehicle" />
@@ -258,10 +349,12 @@ const ContractEditForm = () => {
                   <FormField label="Chasis Number" />
                   <FormField label="Engine Number" />
                 </div>
-                <div className="bg-emerald-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-                  <ShieldCheck size={14} /> <span className="text-[12px] uppercase">Insurance Details</span>
+
+                <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                  <ShieldCheck size={16} className="text-black/90" />
+                  <span className="text-[14px] font-normal uppercase tracking-wide">Insurance Details</span>
                 </div>
-                <div className="bg-white border border-slate-300 p-3 grid grid-cols-2 md:grid-cols-4 gap-3 shadow-sm">
+                <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
                   <FormField label="IDV" />
                   <FormField label="Expiry" type="date" />
                   <FormField label="Insurance Company" />
@@ -270,12 +363,14 @@ const ContractEditForm = () => {
               </div>
             )}
 
+            {/* LAP SECTION */}
             {productType === 'LAP' && (
               <div className="space-y-4">
-                <div className="bg-emerald-600 text-white px-2 py-0.5 rounded-t-sm flex items-center gap-2">
-                  <FileText size={14} /> <span className="text-[12px] font-black uppercase">Property Location Details</span>
+                <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                  <FileText size={16} className="text-black/90" />
+                  <span className="text-[14px] font-normal uppercase tracking-wide">Property Location Details</span>
                 </div>
-                <div className="bg-white border border-slate-300 p-3 grid grid-cols-2 md:grid-cols-4 gap-3 shadow-sm">
+                <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm rounded-b-sm">
                   <FormSelect label="Property Type" options={["Residential", "Commercial", "Industrial"]} />
                   <FormField label="Flat No." /><FormField label="Apartment No." /><FormField label="Street Name" />
                   <FormField label="Area Name" /><FormField label="City" /><FormSelect label="State" options={indianStates} />
@@ -285,12 +380,14 @@ const ContractEditForm = () => {
               </div>
             )}
 
+            {/* MSME SECTION */}
             {productType === 'MSME' && (
               <div className="space-y-4">
-                <div className="bg-purple-600 text-white px-2 py-0.5 rounded-t-sm flex items-center gap-2">
-                  <ShieldCheck size={14} /> <span className="text-[12px] font-black uppercase">Business Details</span>
+                <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                  <ShieldCheck size={16} className="text-black/90" />
+                  <span className="text-[14px] font-normal uppercase tracking-wide">Business Details</span>
                 </div>
-                <div className="bg-white border border-slate-300 p-3 grid grid-cols-2 md:grid-cols-3 gap-3 shadow-sm">
+                <div className="bg-white border border-black/60 p-4 grid grid-cols-2 md:grid-cols-3 gap-4 shadow-sm rounded-b-sm">
                   <FormField label="Nature of Business" /><FormField label="Date of Incorporation" type="date" /><FormSelect label="Is it secured" options={["Yes", "No"]} />
                 </div>
               </div>
@@ -299,293 +396,290 @@ const ContractEditForm = () => {
         )}
 
        {activeTab === 'Financial Terms' && (
-  <div className="max-w-[1600px] mx-auto pb-32">
-    {/* 3-COLUMN MAIN GRID */}
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
-      
-      {/* COLUMN 1: CORE FINANCIAL TERMS */}
-      <div className="flex flex-col">
-        <div className="bg-orange-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-          <IndianRupee size={14} /> 
-          <span className="text-[12px] uppercase">Financial Terms</span>
-        </div>
-        <div className="bg-white border border-slate-300 p-3 space-y-3 shadow-sm rounded-b-sm">
-          <FormField label="Loan Amount" />
-          <div className="grid grid-cols-2 gap-2">
-            <FormField label="Tenure (Months)" />
-            <FormField label="Flat Rate (%)" />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <FormField label="IRR (%)" />
-            <FormField label="Insurance Deposit" />
-          </div>
-          <FormField label="Total Contract Value" className="bg-slate-50" />
-          <FormSelect label="Repayment Terms" options={["Monthly", "Quarterly", "Bullet"]} />
-          <FormSelect label="Moratorium" options={["No Moratorium", "One Month", "Two Month"]} />
-          <FormSelect label="Advance" options={["EMI", "Interest"]} />
-        </div>
-      </div>
+          <div className="w-full pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
+          {/* 3-COLUMN MAIN GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            {/* COLUMN 1: CORE FINANCIAL TERMS */}
+            <div className="flex flex-col">
+              <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                <IndianRupee size={16} className="text-black/90" /> 
+                <span className="text-[14px] font-normal uppercase tracking-wide">Financial Terms</span>
+              </div>
+              <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
+                <FormField label="Loan Amount" />
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField label="Tenure (Months)" />
+                  <FormField label="Flat Rate (%)" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField label="IRR (%)" />
+                  <FormField label="Insurance Deposit" />
+                </div>
+                <FormField label="Total Contract Value" />
+                <FormSelect label="Repayment Terms" options={["Monthly", "Quarterly", "Bullet"]} />
+                <FormSelect label="Moratorium" options={["No Moratorium", "One Month", "Two Month"]} />
+                <FormSelect label="Advance" options={["EMI", "Interest"]} />
+              </div>
+            </div>
 
-      {/* COLUMN 2: REPAYMENT STRUCTURE (STEP EMI) */}
-      <div className="flex flex-col">
-        <div className="bg-orange-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-          <RotateCcw size={14} /> 
-          <span className="text-[12px]  uppercase">Repayment Structure</span>
-        </div>
-        <div className="bg-white border border-slate-300 p-3 space-y-4 shadow-sm rounded-b-sm">
-          {/* Step 1 */}
-          <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm">
-            <div className="text-[9px] font-bold text-slate-500 uppercase mb-1 italic">Step 01</div>
-            <div className="grid grid-cols-2 gap-2">
-              <FormField label="EMI Amount" />
-              <FormField label="No. of EMI" />
+            {/* COLUMN 2: REPAYMENT STRUCTURE (STEP EMI) */}
+            <div className="flex flex-col">
+              <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                <RotateCcw size={16} className="text-black/90" /> 
+                <span className="text-[14px] font-normal uppercase tracking-wide">Repayment Structure</span>
+              </div>
+              <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
+                {/* Step 01 */}
+                <div className="p-3 bg-[#F9FAFF] border border-black/60 rounded-sm">
+                  <div className="text-[12px] font-normal text-black/90 uppercase mb-2">Step 01</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField label="EMI Amount" />
+                    <FormField label="No. of EMI" />
+                  </div>
+                </div>
+                {/* Step 02 */}
+                <div className="p-3 bg-[#F9FAFF] border border-black/60 rounded-sm">
+                  <div className="text-[12px] font-normal text-black/90 uppercase mb-2">Step 02</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField label="EMI Amount" />
+                    <FormField label="No. of EMI" />
+                  </div>
+                </div>
+                {/* Step 03 */}
+                <div className="p-3 bg-[#F9FAFF] border border-black/60 rounded-sm">
+                  <div className="text-[12px] font-normal text-black/90 uppercase mb-2">Step 03</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField label="EMI Amount" />
+                    <FormField label="No. of EMI" />
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          {/* Step 2 */}
-          <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm">
-            <div className="text-[9px] font-bold text-slate-500 uppercase mb-1 italic">Step 02</div>
-            <div className="grid grid-cols-2 gap-2">
-              <FormField label="EMI Amount" />
-              <FormField label="No. of EMI" />
-            </div>
-          </div>
-          {/* Step 3 */}
-          <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm">
-            <div className="text-[9px] font-bold text-slate-500 uppercase mb-1 italic">Step 03</div>
-            <div className="grid grid-cols-2 gap-2">
-              <FormField label="EMI Amount" />
-              <FormField label="No. of EMI" />
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* COLUMN 3: INITIAL PAYMENT & DISBURSEMENT */}
-      <div className="flex flex-col">
-        <div className="bg-orange-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-          <ShieldCheck size={14} /> 
-          <span className="text-[12px] uppercase">Initial & Disbursement</span>
-        </div>
-        <div className="bg-white border border-slate-300 p-3 space-y-2 shadow-sm rounded-b-sm">
-          <div className="grid grid-cols-2 gap-2">
-            <FormField label="EMI Advance" />
-            <FormField label="Processing" />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <FormField label="RTO" />
-            <FormField label="Valuation" />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <FormField label="Stamp Duty" />
-            <FormField label="RC Holding" />
-          </div>
-          <FormField label="Other Charges" />
-          <FormSelect label="Repayment Mode" options={["E Nach", "Online", "Cash", "Others"]} />
-          
-          <div className="mt-4 pt-2 border-t border-slate-200">
-            <FormField label="Payment Done To" placeholder="Dealer/Customer" />
-            <div className="grid grid-cols-3 gap-1 mt-2">
-              <FormField label="Pay 1" />
-              <FormField label="Pay 2" />
-              <FormField label="Pay 3" />
+            {/* COLUMN 3: INITIAL PAYMENT & DISBURSEMENT */}
+            <div className="flex flex-col">
+              <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+                <ShieldCheck size={16} className="text-black/90" /> 
+                <span className="text-[14px] font-normal uppercase tracking-wide">Initial & Disbursement</span>
+              </div>
+              <div className="bg-white border border-black/60 p-4 space-y-3 shadow-sm rounded-b-sm">
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField label="EMI Advance" />
+                  <FormField label="Processing" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField label="RTO" />
+                  <FormField label="Valuation" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField label="Stamp Duty" />
+                  <FormField label="RC Holding" />
+                </div>
+                <FormField label="Other Charges" />
+                <FormSelect label="Repayment Mode" options={["E Nach", "Online", "Cash", "Others"]} />
+                
+                <div className="mt-4 pt-4 border-t border-black/60">
+                  <FormField label="Payment Done To" placeholder="Dealer/Customer" />
+                  <div className="grid grid-cols-3 gap-2 mt-3">
+                    <FormField label="Pay 1" />
+                    <FormField label="Pay 2" />
+                    <FormField label="Pay 3" />
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
-      </div>
-
-    </div>
-  </div>
 )}
-{/* 4. DOCUMENTATION DETAILS TAB */}
-  {activeTab === 'Documentation Details' && (
-  <div className="max-w-[1600px] mx-auto pb-32 space-y-4">
-    
-    {/* ROW 1: TWO COLUMNS (BRANCH & HO) */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-      
-      {/* COLUMN 1: BRANCH LEVEL DETAILS */}
-      <div className="flex flex-col">
-        <div className="bg-purple-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-          <FileText size={14} /> 
-          <span className="text-[12px] uppercase tracking-wider">Document Details at Branch Level</span>
-        </div>
-        <div className="bg-white border border-slate-300 p-3 space-y-3 shadow-sm rounded-b-sm">
-          <div className="grid grid-cols-2 gap-3">
-            <FormSelect label="Document Type" options={["Original", "Photocopy", "Digitally Signed"]} />
-            <FormField label="Verified By" placeholder="Employee Name/ID" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Obtained By" />
-            <FormField label="FI Guarantor" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="FI of Borrower" />
-            <FormField label="Loan Referred By" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="TVR Done By" />
-            <FormField label="Vehicle by Agency (if any)" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Vehicle Inspection By" />
-            <FormField label="Property Valuation By" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Legal Opinion By" />
-            <FormField label="Collection Tool By" />
-          </div>
-        </div>
-      </div>
-
-      {/* COLUMN 2: HO LEVEL DETAILS */}
-      <div className="flex flex-col">
-        <div className="bg-purple-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-          <ShieldCheck size={14} /> 
-          <span className="text-[12px] uppercase tracking-wider">Document Details at HO Level</span>
-        </div>
-        <div className="bg-white border border-slate-300 p-3 space-y-3 shadow-sm rounded-b-sm">
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Documents Checked By" />
-            <FormField label="Documents Verified By" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Loan Approved By" />
-            <FormField label="Disbursed By" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="RC Online Checking" />
-            <FormField label="Collection Tool By (HO)" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Area Code" />
-            <FormField label="TVR Done By (HO)" />
-          </div>
-          <FormSelect label="Stock Marked to Bank" options={["Select Bank", "HDFC", "ICICI", "SBI", "Axis", "Kotak"]} />
-        </div>
-      </div>
-    </div>
-
-    {/* ROW 2: PENDING DOCUMENTS CHECKLIST (FULL WIDTH) */}
-    <div className="flex flex-col">
-      <div className="bg-purple-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-        <Copy size={14} /> 
-        <span className="text-[12px] uppercase tracking-wider">Pending Document Details (Check List)</span>
-      </div>
-      <div className="bg-white border border-slate-300 p-3 shadow-sm rounded-b-sm">
-        <div className="flex flex-wrap gap-x-10 gap-y-3 py-2 px-4">
-          {["Agreement book", "RC Book", "HYP Endorsement", "Insurance Copy", "NOC Certificate", "Permit Copy"].map((item) => (
-            <label key={item} className="flex items-center gap-3 cursor-pointer group">
-              <input type="checkbox" className="w-4 h-4 accent-amber-600 border-slate-400 rounded transition-all cursor-pointer" />
-              <span className="text-[12px] font-bold text-slate-700 group-hover:text-black uppercase tracking-tight">{item}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    {/* ROW 3: UPLOAD DOCUMENTS SECTION (TWO INTERNAL ROWS) */}
-    <div className="flex flex-col">
-      <div className="bg-purple-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-        <Send size={14} /> 
-        <span className="text-[12px]  tracking-wider">Upload Documents Section</span>
-      </div>
-      <div className="bg-white border border-slate-300 p-4 shadow-sm rounded-b-sm space-y-6">
+      {/* 4. DOCUMENTATION DETAILS TAB */}
+        {activeTab === 'Documentation Details' && (
+        <div className="w-full space-y-6 pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
         
-        {/* SUB-ROW 1: INPUT CONTROLS */}
-        <div className="flex flex-col md:flex-row items-end gap-4 bg-slate-50 p-4 border border-slate-200 rounded-sm">
-          <FormSelect 
-            label="Select Document Type" 
-            options={["PAN Card", "Aadhar", "Property Tax", "RC Copy", "Agreement", "Insurance"]} 
-            className="flex-1"
-          />
-          <div className="flex-[2] w-full">
-            <label className="text-[11px] text-slate-700 font-bold uppercase tracking-tighter leading-tight mb-1 block">Browse Attachment</label>
-            <div className="flex gap-2">
-              <input 
-                type="file" 
-                className="block w-full text-[12px] text-slate-500 file:mr-4 file:py-1.5 file:px-4 file:rounded-sm file:border-0 file:text-[11px] file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer border border-slate-400 bg-white shadow-sm"
-              />
-              <button className="bg-emerald-600 text-white px-6 py-1.5 text-[11px] font-black rounded-sm uppercase hover:bg-emerald-700 transition-all shadow-md active:scale-95">
-                Upload
-              </button>
+        {/* ROW 1: TWO COLUMNS (BRANCH & HO) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          
+          {/* COLUMN 1: BRANCH LEVEL DETAILS */}
+          <div className="flex flex-col">
+            <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+              <FileText size={16} className="text-black/90" /> 
+              <span className="text-[14px] font-normal uppercase tracking-wide">Document Details at Branch Level</span>
+            </div>
+            <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <FormSelect label="Document Type" options={["Original", "Photocopy", "Digitally Signed"]} />
+                <FormField label="Verified By" placeholder="Employee Name/ID" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Obtained By" />
+                <FormField label="FI Guarantor" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="FI of Borrower" />
+                <FormField label="Loan Referred By" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="TVR Done By" />
+                <FormField label="Vehicle by Agency (if any)" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Vehicle Inspection By" />
+                <FormField label="Property Valuation By" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Legal Opinion By" />
+                <FormField label="Collection Tool By" />
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMN 2: HO LEVEL DETAILS */}
+          <div className="flex flex-col">
+            <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+              <ShieldCheck size={16} className="text-black/90" /> 
+              <span className="text-[14px] font-normal uppercase tracking-wide">Document Details at HO Level</span>
+            </div>
+            <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Documents Checked By" />
+                <FormField label="Documents Verified By" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Loan Approved By" />
+                <FormField label="Disbursed By" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="RC Online Checking" />
+                <FormField label="Collection Tool By (HO)" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField label="Area Code" />
+                <FormField label="TVR Done By (HO)" />
+              </div>
+              <FormSelect label="Stock Marked to Bank" options={["Select Bank", "HDFC", "ICICI", "SBI", "Axis", "Kotak"]} />
             </div>
           </div>
         </div>
 
-        {/* SUB-ROW 2: DATA TABLE WITH PREVIEW */}
-        <div className="flex flex-col space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black text-slate-500 uppercase italic tracking-widest">Linked Attachments Registry</span>
-            <span className="text-[9px] text-blue-600 font-bold uppercase">Total Files: 1</span>
+        {/* ROW 2: PENDING DOCUMENTS CHECKLIST */}
+        <div className="flex flex-col">
+          <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+            <Copy size={16} className="text-black/90" /> 
+            <span className="text-[14px] font-normal uppercase tracking-wide">Pending Document Details (Check List)</span>
           </div>
-          <div className="border border-slate-300 rounded-sm overflow-hidden shadow-sm">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-800 text-white">
-                  <th className="px-4 py-2 text-[10px] font-black uppercase tracking-widest w-20">Preview</th>
-                  <th className="px-4 py-2 text-[10px] font-black uppercase tracking-widest">Document Category</th>
-                  <th className="px-4 py-2 text-[10px] font-black uppercase tracking-widest">File Name</th>
-                  <th className="px-4 py-2 text-[10px] font-black uppercase tracking-widest">Size</th>
-                  <th className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 bg-white">
-                <tr className="hover:bg-blue-50/60 transition-colors group">
-                  <td className="px-4 py-2">
-                    <div 
-                      className="w-12 h-12 bg-slate-100 rounded-sm border border-slate-300 overflow-hidden cursor-pointer relative shadow-inner group-hover:border-blue-400"
-                      title="Click to view full image"
-                    >
-                      <img 
-                        src="https://via.placeholder.com/150" 
-                        alt="pan_card_thumbnail" 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                        <Share2 size={14} className="text-white" />
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-800 uppercase border border-blue-200">
-                      PAN Card
-                    </span>
-                  </td>
-                  <td className="px-4 py-2 text-[12px] font-bold text-slate-700 tracking-tight">pan_card_front_user102.jpg</td>
-                  <td className="px-4 py-2 text-[11px] font-medium text-slate-400">1.2 MB</td>
-                  <td className="px-4 py-2 text-right">
-                    <div className="flex justify-end items-center gap-3">
-                      <button className="flex items-center gap-1 text-blue-600 hover:text-blue-900 text-[10px] font-black uppercase tracking-tighter group/btn">
-                        <FileText size={12} className="group-hover/btn:scale-110 transition-transform" /> View
-                      </button>
-                      <div className="w-[1px] h-4 bg-slate-300"></div>
-                      <button className="flex items-center gap-1 text-red-600 hover:text-red-800 text-[10px] font-black uppercase tracking-tighter group/btn">
-                        <RotateCcw size={12} className="group-hover/btn:rotate-12 transition-transform" /> Remove
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="bg-white border border-black/60 p-4 shadow-sm rounded-b-sm">
+            <div className="flex flex-wrap gap-x-12 gap-y-4 py-2 px-2">
+              {["Agreement book", "RC Book", "HYP Endorsement", "Insurance Copy", "NOC Certificate", "Permit Copy"].map((item) => (
+                <label key={item} className="flex items-center gap-3 cursor-pointer group">
+                  <input type="checkbox" className="w-4 h-4 accent-blue-700 border-black/60 rounded cursor-pointer" />
+                  <span className="text-[14px] font-normal text-black/90 group-hover:text-black uppercase tracking-tight">{item}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 3: UPLOAD DOCUMENTS SECTION */}
+        <div className="flex flex-col">
+          <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+            <Send size={16} className="text-black/90" /> 
+            <span className="text-[14px] font-normal uppercase tracking-wide">Upload Documents Section</span>
+          </div>
+          <div className="bg-white border border-black/60 p-5 shadow-sm rounded-b-sm space-y-6">
+            
+            {/* SUB-ROW 1: INPUT CONTROLS */}
+            <div className="flex flex-col md:flex-row items-end gap-6 bg-[#F9FAFF] p-4 border border-black/20 rounded-sm">
+              <FormSelect 
+                label="Select Document Type" 
+                options={["PAN Card", "Aadhar", "Property Tax", "RC Copy", "Agreement", "Insurance"]} 
+                className="flex-1"
+              />
+              <div className="flex-[2] w-full">
+                <label className="text-[14px] text-black/90 font-normal uppercase tracking-tight mb-1 block">Browse Attachment</label>
+                <div className="flex gap-3">
+                  <input 
+                    type="file" 
+                    className="block w-full text-[14px] text-black/90 file:mr-4 file:py-1.5 file:px-4 file:rounded-sm file:border-0 file:text-[12px] file:font-normal file:bg-blue-800 file:text-white hover:file:bg-blue-900 cursor-pointer border border-black/60 bg-white shadow-sm"
+                  />
+                  <button className="bg-blue-800 text-white px-8 py-1.5 text-[14px] font-normal rounded-sm uppercase hover:bg-blue-900 transition-all shadow-md active:scale-95">
+                    Upload
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* SUB-ROW 2: DATA TABLE */}
+            <div className="flex flex-col space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[14px] font-normal text-black/60 uppercase tracking-widest">Linked Attachments Registry</span>
+                <span className="text-[12px] text-blue-800 font-normal uppercase">Total Files: 1</span>
+              </div>
+              <div className="border border-black/60 rounded-sm overflow-hidden shadow-sm">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] border-b border-black/60 shadow-sm">
+                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider w-24">
+                        Preview
+                      </th>
+                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                        Document Category
+                      </th>
+                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                        File Name
+                      </th>
+                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider">
+                        Size
+                      </th>
+                      <th className="px-4 py-3 text-[14px] font-normal text-black/90 uppercase tracking-wider text-right">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-black/10 bg-white">
+                    <tr className="hover:bg-blue-50/40 transition-colors group text-black/90">
+                      <td className="px-4 py-3">
+                        <div className="w-12 h-12 bg-white rounded-sm border border-black/20 overflow-hidden cursor-pointer relative shadow-sm group-hover:border-blue-400">
+                          <img src="https://via.placeholder.com/150" alt="preview" className="w-full h-full object-cover" />
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-[14px]">
+                        <span className="px-2 py-0.5 rounded-sm bg-blue-50 text-blue-900 border border-blue-100">PAN Card</span>
+                      </td>
+                      <td className="px-4 py-3 text-[14px]">pan_card_front.jpg</td>
+                      <td className="px-4 py-3 text-[14px] text-black/40">1.2 MB</td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex justify-end items-center gap-4">
+                          <button className="text-blue-800 hover:text-blue-900 text-[14px] uppercase flex items-center gap-1">
+                            <FileText size={14} /> View
+                          </button>
+                          <button className="text-red-700 hover:text-red-900 text-[14px] uppercase flex items-center gap-1">
+                            <RotateCcw size={14} /> Remove
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 )}
 
-  {/* 5. CO LENDING DETAILS TAB */}
-  {activeTab === 'Co Lending Details' && (
-    <div className="max-w-[1600px] mx-auto pb-32">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+      {/* 5. CO LENDING DETAILS TAB */}
+      {activeTab === 'Co Lending Details' && (
+        <div className="w-full pb-32 px-4" style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         
         {/* COLUMN 1: MODEL & LENDER INFO */}
         <div className="flex flex-col">
-          <div className="bg-cyan-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-            <Share2 size={14} /> 
-            <span className="text-[12px] uppercase">Contribution Model</span>
+          <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+            <Share2 size={16} className="text-black/90" /> 
+            <span className="text-[14px] font-normal uppercase tracking-wide">Contribution Model</span>
           </div>
-          <div className="bg-white border border-slate-300 p-3 space-y-4 shadow-sm rounded-b-sm">
+          <div className="bg-white border border-black/60 p-4 space-y-4 shadow-sm rounded-b-sm">
             <FormSelect 
               label="Co-Lending Type" 
               options={["Contribution Model", "Revenue Sharing (RSP)", "Risk Sharing", "Franchise"]} 
@@ -597,20 +691,22 @@ const ContractEditForm = () => {
 
         {/* COLUMN 2: SHARE PERCENTAGES */}
         <div className="flex flex-col">
-          <div className="bg-cyan-100 text-black border border-slate-400 px-2 py-1 rounded-t-sm shadow-sm flex items-center gap-2">
-            <IndianRupee size={14} /> 
-            <span className="text-[12px]  uppercase">Revenue & Risk Share</span>
+          <div className="bg-gradient-to-r from-[#E1EFFF] to-[#D6E4FF] text-black/90 border border-black/60 px-3 py-1.5 rounded-t-lg shadow-sm flex items-center gap-2">
+            <IndianRupee size={16} className="text-black/90" /> 
+            <span className="text-[14px] font-normal uppercase tracking-wide">Revenue & Risk Share</span>
           </div>
-          <div className="bg-white border border-slate-300 p-3 shadow-sm rounded-b-sm">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+          <div className="bg-white border border-black/60 p-4 shadow-sm rounded-b-sm">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
               <FormField label="If Contribution Share %" />
               <FormField label="EMI Share" />
               <FormField label="% of Revenue Share" />
               <FormField label="Risk Share" />
             </div>
-            <div className="mt-6 p-3 bg-cyan-50 border border-cyan-100 rounded-sm">
-              <p className="text-[11px] text-cyan-800 leading-tight">
-                <strong>Note:</strong> Co-lending terms are governed by the master agreement between the primary financier and the participating partner.
+            
+            {/* The note section updated to match the brand blue style */}
+            <div className="mt-6 p-3 bg-[#F9FAFF] border border-black/20 rounded-sm">
+              <p className="text-[14px] text-black/90 leading-tight">
+                <span className="font-bold text-blue-900">Note:</span> Co-lending terms are governed by the master agreement between the primary financier and the participating partner.
               </p>
             </div>
           </div>
@@ -626,32 +722,47 @@ const ContractEditForm = () => {
         )}
       </div>
 
-      {/* 4. PERSISTENT NAVIGATION BAR (Sticky at Bottom) */}
-      <div className="sticky bottom-[21px] bg-white border-t border-slate-300 p-2 flex justify-end items-center px-4 gap-3 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-[80]">
-        {activeTab !== tabs[0].name && (
-          <button onClick={handlePrev} className="px-4 py-1.5 border border-slate-400 text-slate-700 text-[11px] font-bold rounded flex items-center gap-2 hover:bg-slate-50 uppercase tracking-wider transition-colors">
-            <ChevronLeft size={14} /> Previous Section
-          </button>
-        )}
-        {activeTab !== tabs[tabs.length - 1].name ? (
-          <button onClick={handleNext} className="px-6 py-1.5 bg-slate-800 text-white text-[11px] font-bold rounded flex items-center gap-2 hover:bg-black uppercase tracking-widest transition-all shadow-md">
-            Next Section <ChevronRight size={14} />
-          </button>
-        ) : (
-          <button className="px-6 py-1.5 bg-emerald-600 text-white text-[11px] font-bold rounded flex items-center gap-2 hover:bg-emerald-700 uppercase tracking-widest transition-all shadow-md">
-            Final Review <CheckCircle size={14} />
-          </button>
-        )}
-      </div>
+     {/* 4. COMPACT PERSISTENT NAVIGATION BAR */}
+<div className="fixed bottom-[40px] left-0 right-0 bg-white/95 backdrop-blur-md border-t-2 border-black/20 py-1.5 flex justify-end items-center px-6 gap-3 shadow-[0_-10px_25px_rgba(0,0,0,0.06)] z-[80]">
+  
+  {/* Previous Section Button - Light Brand Blue Style */}
+  {activeTab !== tabs[0].name && (
+    <button 
+      onClick={handlePrev} 
+      className="px-4 py-1.5 bg-[#E1EFFF] border-2 border-[#0052CC]/20 text-[#0052CC] text-[11px] font-black rounded-md flex items-center gap-2 hover:bg-black hover:text-white hover:border-black uppercase tracking-widest transition-all active:scale-95 shadow-sm"
+    >
+      <ChevronLeft size={14} strokeWidth={3} /> 
+      Previous Section
+    </button>
+  )}
 
-      {/* 5. FOOTER (Sticky at Absolute Bottom) */}
-      <div className="sticky bottom-0 bg-[#F8FAFC] border-t border-slate-400 px-2 py-0.5 flex justify-between items-center text-[10px] font-normal uppercase z-[100]">
-        <span className="text-slate-500">UNIT: PRODUCTION_CORE_V4</span>
-        <div className="flex items-center gap-1 text-[#0052CC] font-bold">
-          <div className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse"></div>
-          SECURE_SESSION_ACTIVE
-        </div>
-      </div>
+  {/* Next / Final Review Button - Light Brand Blue with Shimmer */}
+  {activeTab !== tabs[tabs.length - 1].name ? (
+    <button 
+      onClick={handleNext} 
+      className="relative overflow-hidden px-6 py-2 bg-[#E1EFFF] border-2 border-[#0052CC]/30 text-[#0052CC] text-[11px] font-black rounded-md flex items-center gap-2 hover:bg-[#0052CC] hover:text-white uppercase tracking-[0.15em] transition-all duration-300 group active:scale-95 shadow-sm"
+    >
+      {/* Shimmer Effect */}
+      <span className="absolute inset-0 w-1/2 h-full bg-white/40 skew-x-[-25deg] -translate-x-full group-hover:animate-[shimmer_0.75s_ease-out]" style={{ filter: 'blur(8px)' }} />
+      
+      <span className="relative z-10">Next Section</span>
+      <ChevronRight size={14} strokeWidth={3} className="relative z-10 transition-transform group-hover:translate-x-1" />
+    </button>
+  ) : (
+    <button className="px-6 py-2 bg-emerald-600 text-white text-[11px] font-black rounded-md flex items-center gap-2 hover:bg-emerald-800 uppercase tracking-[0.15em] transition-all shadow-[0_5px_15px_rgba(16,185,129,0.2)] active:scale-95">
+      Final Review <CheckCircle size={14} strokeWidth={3} />
+    </button>
+  )}
+
+  {/* Shimmer Keyframes */}
+  <style dangerouslySetInnerHTML={{ __html: `
+    @keyframes shimmer {
+      100% { transform: translateX(450%) skewX(-25deg); }
+    }
+  `}} />
+</div>
+     
+
     </div>
   );
 };

@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  ChevronRight, ChevronLeft, LayoutDashboard, Info, Bell, AlertCircle, 
-  ArrowUpRight, CheckSquare, Wallet, Clock, MessageSquare, Calendar, Timer, TrendingUp,
-  CircleDot, Zap
+  ChevronRight, ChevronLeft, LayoutDashboard, Bell, AlertCircle, 
+  CheckSquare, Wallet, TrendingUp, CircleDot, Zap, ArrowUpRight,
+  Clock, History, ShieldCheck, Activity, MessageSquare, ClipboardCheck, 
+  HandCoins, HelpCircle, Users, User
 } from 'lucide-react';
+
+// Import Recharts
+import { 
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, 
+  PieChart, Pie, Cell, LineChart, Line, CartesianGrid, AreaChart, Area 
+} from 'recharts';
 
 // Components
 import Login from './pages/Login';
 import TopNavbar from './components/TopNavbar';
 import Footer from './components/Footer';
-
-// Pages
 import PartyCodeModify from './pages/Credit/Masters/PartyCodeModify';
 import ContractGrid from './pages/credit/transaction/contract/ContractGrid';
 import ContractEditForm from './pages/credit/transaction/contract/ContractEditForm.jsx';
@@ -23,218 +28,245 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// 1. THE DUAL-PANE SHELL (Enhanced Module Intelligence Sidebar)
+// 1. THE ENHANCED DUAL-PANE SHELL (MODIFIED)
 const MainDashboardLayout = () => {
   const [isPropBoxOpen, setIsPropBoxOpen] = useState(true);
   const savedUser = localStorage.getItem('user');
   const userData = savedUser ? JSON.parse(savedUser) : null;
   const location = useLocation();
+  const navigate = useNavigate();
 
+  // Logic to determine if we are in a sub-menu form
   const isFullScreenForm = location.pathname.includes('/contract/form') || 
                            location.pathname.includes('/receipt');
 
+  const calibriBlackStyle = { 
+    fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif',
+    color: '#000000' 
+  };
+
   return (
-    <div className="h-screen bg-[#F0F2F5] flex flex-col font-sans overflow-hidden">
-      <TopNavbar menuTree={userData?.menuTree || []} userData={userData} />
+    <div style={calibriBlackStyle} className="h-screen bg-[#F0F2F5] flex flex-col overflow-hidden">
+      
+      {/* HIDE NAVBAR ON SUB-MENUS */}
+      {!isFullScreenForm && (
+        <TopNavbar menuTree={userData?.menuTree || []} userData={userData} />
+      )}
+
+      {/* BACK NAVIGATION BAR: Only visible when Nav is hidden */}
+      {isFullScreenForm && (
+        <div className="bg-white border-b border-black/60 px-4 py-2 flex items-center shadow-sm z-[110]">
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center gap-2 text-[14px] font-bold text-blue-900 hover:text-blue-700 transition-colors uppercase tracking-tight"
+          >
+            <ChevronLeft size={18} strokeWidth={3} /> Back to Dashboard
+          </button>
+          <div className="h-4 w-[1px] bg-black/20 mx-4"></div>
+          <span className="text-[12px] font-bold text-black/40 uppercase tracking-widest">
+            Focused Entry Mode
+          </span>
+        </div>
+      )}
 
       <div className="flex flex-1 overflow-hidden relative">
         <main className="flex-1 overflow-y-auto transition-all duration-500 ease-in-out bg-[#F0F2F5]">
-          <div className={`w-full h-full ${isFullScreenForm ? 'p-0' : 'p-4 lg:p-6'}`}>
-            <div className={`${isFullScreenForm ? 'bg-transparent p-0' : 'p-6 bg-white rounded-xl border border-slate-300 shadow-md'} min-h-full`}>
+          {/* If FullScreen, we remove the padding and the white rounded container */}
+          <div className={`w-full h-full ${isFullScreenForm ? 'p-0' : 'p-6'}`}>
+            <div className={`${isFullScreenForm ? 'bg-transparent' : 'p-8 bg-white rounded-2xl border border-gray-300 shadow-xl'} min-h-full`}>
               <Outlet /> 
             </div>
           </div>
         </main>
 
+        {/* HIDE SIDEBAR ON SUB-MENUS */}
         {!isFullScreenForm && (
-          <button 
-            onClick={() => setIsPropBoxOpen(!isPropBoxOpen)}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-50 bg-white border border-slate-300 shadow-md p-1.5 rounded-l-md hover:bg-blue-50 text-slate-600 transition-all duration-500 ${
-              isPropBoxOpen ? 'mr-80' : 'mr-0'
-            }`}
-          >
-            {isPropBoxOpen ? <ChevronRight size={18} strokeWidth={3} /> : <ChevronLeft size={18} strokeWidth={3} />}
-          </button>
-        )}
+          <>
+            <button 
+              onClick={() => setIsPropBoxOpen(!isPropBoxOpen)}
+              className={`absolute right-0 top-1/2 -translate-y-1/2 z-50 bg-white border border-gray-300 shadow-lg p-2 rounded-l-xl hover:bg-blue-50 text-black transition-all duration-300 ${
+                isPropBoxOpen ? 'mr-80' : 'mr-0'
+              }`}
+            >
+              {isPropBoxOpen ? <ChevronRight size={20} strokeWidth={3} /> : <ChevronLeft size={20} strokeWidth={3} />}
+            </button>
 
-        {/* ENHANCED ZONE B: MODULE INTELLIGENCE */}
-        {!isFullScreenForm && (
-          <aside 
-            className={`bg-white border-l border-slate-300 flex flex-col shadow-[-4px_0_12px_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out overflow-hidden shrink-0 ${
-              isPropBoxOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 pointer-events-none'
-            }`}
-          >
-            <div className="w-80 flex flex-col h-full overflow-y-auto">
-              <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 sticky top-0 z-10">
-                <h3 className="font-black text-slate-900 text-[11px] uppercase tracking-widest flex items-center gap-2">
-                  <Zap size={14} className="text-[#0052CC]" />
-                  Module Intelligence
-                </h3>
-                <div className="relative">
-                   <Bell size={14} className="text-slate-400" />
-                   <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            <aside 
+              className={`bg-white border-l border-gray-300 flex flex-col transition-all duration-500 ease-in-out overflow-hidden shrink-0 ${
+                isPropBoxOpen ? 'w-80 opacity-100' : 'w-0 opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="w-80 flex flex-col h-full bg-gray-50/50" style={{ fontFamily: 'Calibri, sans-serif' }}>
+                <div className="p-6 border-b border-gray-300 flex items-center justify-between bg-white sticky top-0 z-10">
+                  <h3 className="font-bold text-black text-[14px] uppercase tracking-wider flex items-center gap-2">
+                    <Zap size={16} className="text-[#0052CC]" />
+                    Module Intelligence
+                  </h3>
+                  <Activity size={16} className="text-emerald-600 animate-pulse" />
+                </div>
+                
+                <div className="p-5 space-y-8 overflow-y-auto custom-scrollbar">
+                  <section>
+                    <p className="text-[12px] font-bold text-black uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <ClipboardCheck size={14} className="text-[#0052CC]" /> Operational Backlog
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="p-4 bg-white rounded-xl border border-gray-300 shadow-sm hover:border-blue-400 transition-colors">
+                        <p className="text-2xl font-bold text-black leading-none">14</p>
+                        <p className="text-[11px] font-bold text-black uppercase mt-2 leading-tight">Vouchers for Auth</p>
+                      </div>
+                      <div className="p-4 bg-white rounded-xl border border-gray-300 shadow-sm hover:border-blue-400 transition-colors">
+                        <p className="text-2xl font-bold text-black leading-none">08</p>
+                        <p className="text-[11px] font-bold text-black uppercase mt-2 leading-tight">Pending Disb.</p>
+                      </div>
+                      <div className="p-4 bg-white rounded-xl border border-gray-300 shadow-sm hover:border-rose-400 transition-colors">
+                        <p className="text-2xl font-bold text-black">03</p>
+                        <p className="text-[11px] font-bold text-black uppercase mt-2 leading-tight">Grievances</p>
+                      </div>
+                      <div className="p-4 bg-white rounded-xl border border-gray-300 shadow-sm hover:border-amber-400 transition-colors">
+                        <p className="text-2xl font-bold text-black">05</p>
+                        <p className="text-[11px] font-bold text-black uppercase mt-2 leading-tight">Dept. Requests</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section>
+                    <p className="text-[12px] font-bold text-black uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <CheckSquare size={14} className="text-[#7C3AED]" /> Tasks Assigned
+                    </p>
+                    <div className="space-y-3">
+                      {[
+                        { task: "Complete KYC Audit for case 14235", priority: "High" },
+                        { task: "Collect bank statement for case 14531", priority: "Medium" },
+                        { task: "Update contact details for case 14600", priority: "Low" }
+                      ].map((item, i) => {
+                        const getPriorityStyles = (p) => {
+                          if (p === 'High') return 'bg-rose-600 text-white';
+                          if (p === 'Medium') return 'bg-[#D97706] text-white';
+                          return 'bg-[#059669] text-white';
+                        };
+                        return (
+                          <div key={i} className="p-4 bg-white border border-gray-300 rounded-xl hover:shadow-md transition-shadow group">
+                            <div className="flex justify-between items-start mb-2">
+                              <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-md border uppercase tracking-wider ${getPriorityStyles(item.priority)}`}>
+                                {item.priority}
+                              </span>
+                            </div>
+                            <p className="text-[13px] font-bold text-black leading-snug">{item.task}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
                 </div>
               </div>
-              
-              <div className="p-5 space-y-8">
-                {/* PART 1: TASKS ASSIGNED QUICK LIST */}
-                <section>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <CheckSquare size={12} /> Active Tasks
-                  </p>
-                  <div className="space-y-3">
-                    {[
-                      { title: "KYC Folio #8821", due: "Today", color: "bg-red-500" },
-                      { title: "Voucher #V-901", due: "Tomorrow", color: "bg-orange-500" }
-                    ].map((task, i) => (
-                      <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 cursor-pointer transition-all">
-                        <CircleDot size={8} className={task.color} />
-                        <div>
-                          <p className="text-[11px] font-black text-slate-800 leading-none">{task.title}</p>
-                          <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase">Target: {task.due}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* PART 2: LIVE NOTIFICATIONS */}
-                <section>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <Bell size={12} /> Notifications
-                  </p>
-                  <div className="space-y-4">
-                    <div className="bg-blue-50/50 p-3 rounded-xl border border-blue-100 relative">
-                      <p className="text-[10px] font-black text-blue-700 leading-tight">Contract CON-2026-001 updated by LOS</p>
-                      <p className="text-[9px] text-blue-400 font-bold mt-1">2 mins ago</p>
-                    </div>
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                      <p className="text-[10px] font-black text-slate-700 leading-tight">New Payment Receipt logged for Chennai Branch</p>
-                      <p className="text-[9px] text-slate-400 font-bold mt-1">1 hour ago</p>
-                    </div>
-                  </div>
-                </section>
-
-                {/* PART 3: PERFORMANCE METRIC */}
-                
-              </div>
-            </div>
-          </aside>
+            </aside>
+          </>
         )}
       </div>
-      <Footer />
+      <Footer userData={userData} />
     </div>
   );
 };
 
-// 2. ENHANCED WELCOME DASHBOARD (Same as before, synced with sidebar)
+// 2. WELCOME DASHBOARD (UNCHANGED)
 const WelcomeDashboard = () => {
-  const savedUser = localStorage.getItem('user');
-  const userData = savedUser ? JSON.parse(savedUser) : null;
-
+  const branchData = [
+    { name: 'Jaipur', loans: 450, aum: 120 },
+    { name: 'Chennai', loans: 320, aum: 85 },
+    { name: 'Amravathi', loans: 210, aum: 55 },
+    { name: 'Salem', loans: 380, aum: 95 },
+  ];
+  const COLORS = ['#0052CC', '#059669', '#D97706', '#7C3AED'];
+  const disbursementData = [{ d: '1', v: 10 }, { d: '5', v: 32 }, { d: '10', v: 25 }, { d: '15', v: 48 }, { d: '20', v: 35 }, { d: '25', v: 62 }, { d: '30', v: 55 }];
+  
   const metrics = [
-    { label: 'New from LOS', count: '08', icon: <ArrowUpRight size={18} />, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Tasks Assigned', count: '05', icon: <CheckSquare size={18} />, color: 'text-orange-600', bg: 'bg-orange-50' },
-    { label: 'Payments Pending', count: '14', icon: <Wallet size={18} />, color: 'text-green-600', bg: 'bg-green-50' },
-    { label: 'Overdue Folios', count: '02', icon: <AlertCircle size={18} />, color: 'text-red-600', bg: 'bg-red-50' },
+    { label: 'NPA Percentage', count: '2.45%', icon: <AlertCircle size={18} />, bg: 'bg-[#0052CC]', trend: '-0.2%' },
+    { label: 'Litigation Cases', count: '42', icon: <CheckSquare size={18} />, bg: 'bg-[#D97706]', trend: '+2' },
+    { label: 'Repo Inventory', count: '18', icon: <Wallet size={18} />, bg: 'bg-[#059669]', trend: 'Stable' },
+    { label: 'Average IRR', count: '14.8%', icon: <TrendingUp size={18} />, bg: 'bg-[#7C3AED]', trend: '+0.5%' },
   ];
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex justify-between items-end mb-8 border-b border-slate-100 pb-6">
+    <div className="space-y-8 animate-in fade-in duration-700">
+      <div className="flex justify-between items-center border-b border-gray-200 pb-4">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">
-            Welcome, <span className="text-[#0052CC]">{userData?.userName || 'Super Admin'}</span>
-          </h2>
-          <p className="text-sm text-slate-500 font-bold uppercase tracking-widest mt-1">
-            System Status: <span className="text-green-600">Online</span> | Branch: <span className="text-slate-900">Chennai South</span>
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Enterprise</h2>
+            <div className="h-8 w-[2px] bg-blue-200 rotate-[20deg]"></div>
+            <span className="bg-blue-600 text-white px-3 py-0.5 rounded text-[12px] font-bold tracking-[0.2em]">OVERVIEW</span>
+          </div>
+          <p className="text-xs font-bold text-black uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" /> Live Data: All Branches
           </p>
         </div>
-        <div className="hidden md:block text-right">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter italic">Business Date</p>
-          <p className="text-sm font-black text-slate-900">08-Apr-2026</p>
+        <div className="bg-gray-100 p-3 rounded-2xl px-6 border border-gray-300 text-right">
+          <p className="text-[10px] font-bold text-black uppercase leading-none mb-1">Business Date</p>
+          <p className="text-lg font-bold text-black tracking-tight">10 APR 2026</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-4 gap-6">
         {metrics.map((m, i) => (
-          <div key={i} className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-all group cursor-pointer">
-            <div className="flex justify-between items-start mb-3">
-              <div className={`${m.bg} ${m.color} p-2 rounded-lg`}>{m.icon}</div>
-              <TrendingUp size={14} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
+          <div key={i} className={`relative overflow-hidden p-6 rounded-3xl transition-all duration-500 hover:-translate-y-1 group shadow-xl ${m.bg}`}>
+            <div className="relative z-10">
+              <div className="flex justify-between items-start mb-6">
+                <div className="bg-white/20 backdrop-blur-md text-white p-3 rounded-2xl shadow-lg">{m.icon}</div>
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded bg-black/20 text-white border border-white/10">{m.trend}</span>
+              </div>
+              <p className="text-3xl font-bold text-white mb-1 tracking-tight">{m.count}</p>
+              <p className="text-[11px] font-bold text-white uppercase tracking-[0.1em]">{m.label}</p>
             </div>
-            <p className="text-2xl font-black text-slate-900">{m.count}</p>
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{m.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-          <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-            <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-              <Wallet size={14} className="text-green-600" /> Payments to be Received
-            </h3>
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Due Check</span>
-          </div>
-          <div className="divide-y divide-slate-100">
-            {[
-              { id: 'CON-2026-001', client: 'Ramesh Kumar', amt: '₹ 12,500', date: '08-Apr-2026', status: 'Due Today' },
-              { id: 'CON-2026-042', client: 'Sathyamoorthy', amt: '₹ 45,000', date: '09-Apr-2026', status: 'Upcoming' },
-              { id: 'CON-2026-089', client: 'Priya Electronics', amt: '₹ 8,200', date: '10-Apr-2026', status: 'Upcoming' },
-            ].map((item, idx) => (
-              <div key={idx} className="p-4 hover:bg-slate-50 flex justify-between items-center transition-colors cursor-pointer group">
-                <div>
-                  <p className="text-xs font-black text-slate-900 group-hover:text-[#0052CC]">{item.client}</p>
-                  <p className="text-[10px] text-slate-500 font-bold">{item.id} • <span className="text-blue-600">{item.date}</span></p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs font-black text-slate-900">{item.amt}</p>
-                  <p className={`text-[9px] font-black uppercase ${item.status === 'Due Today' ? 'text-red-500' : 'text-slate-400'}`}>
-                    {item.status}
-                  </p>
-                </div>
-              </div>
-            ))}
+      <div className="grid grid-cols-3 gap-6">
+        <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
+          <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <LayoutDashboard size={14} className="text-[#0052CC]" /> Active Loans
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={branchData}>
+                <XAxis dataKey="name" fontSize={14} fontWeight="900" axisLine={false} tickLine={false} tick={{ fill: '#000' }} interval={0} />
+                <Tooltip cursor={{ fill: '#f8f9fa' }} />
+                <Bar dataKey="loans" fill="#0052CC" radius={[4, 4, 0, 0]} barSize={32} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
-
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-          <div className="p-4 bg-slate-50 border-b border-slate-200">
-            <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-              <MessageSquare size={14} className="text-[#0052CC]" /> Tasks Assigned
-            </h3>
+        <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
+           <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <CircleDot size={14} className="text-[#059669]" /> AUM Mix
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={branchData} innerRadius={65} outerRadius={85} paddingAngle={8} dataKey="aum">
+                  {branchData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} stroke="none" />)}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
-          <div className="divide-y divide-slate-100">
-            {[
-              { msg: "Update KYC for Folio #8821", from: "Admin", sent: "07-Apr 10:30 AM", target: "08-Apr 05:00 PM" },
-              { msg: "Verify Payment Voucher #V-901", from: "Accounts", sent: "08-Apr 09:15 AM", target: "09-Apr 11:00 AM" },
-            ].map((task, idx) => (
-              <div key={idx} className="p-4 hover:bg-slate-50 space-y-3 cursor-pointer">
-                <div className="flex justify-between items-start">
-                  <p className="text-xs font-black text-slate-900 leading-tight w-2/3">{task.msg}</p>
-                  <span className="text-[9px] bg-blue-100 text-[#0052CC] px-2 py-0.5 rounded font-black uppercase">{task.from}</span>
-                </div>
-                <div className="flex items-center gap-4 text-[10px] font-bold">
-                  <div className="flex items-center gap-1 text-slate-400"><Calendar size={12} /><span>Sent: {task.sent}</span></div>
-                  <div className="flex items-center gap-1 text-orange-600"><Timer size={12} /><span>Target: {task.target}</span></div>
-                </div>
-              </div>
-            ))}
+        </div>
+        <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
+           <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <TrendingUp size={14} className="text-[#D97706]" /> Disbursement MTD
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={disbursementData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="d" fontSize={10} fontWeight="bold" axisLine={false} tickLine={false} tick={{fill: '#000'}} />
+                <Tooltip />
+                <Area type="monotone" dataKey="v" stroke="#0052CC" strokeWidth={4} fill="#0052CC" fillOpacity={0.1} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-// 3. DEBUG PAGE
-const RouteNotFound = () => {
-  const location = useLocation();
-  return (
-    <div className="p-10 bg-red-50 rounded-xl border border-red-200 text-center">
-      <h2 className="text-red-600 font-black text-xl mb-2">Route Mismatch!</h2>
-      <p className="font-bold italic text-slate-600">{location.pathname}</p>
     </div>
   );
 };
@@ -245,14 +277,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<Login />} />
-        
         <Route element={<ProtectedRoute><MainDashboardLayout /></ProtectedRoute>}>
           <Route path="/dashboard" element={<WelcomeDashboard />} />
           <Route path="/credit/masters/party-code" element={<PartyCodeModify />} />
           <Route path="/credit/transaction/contract/edit" element={<ContractGrid />} />
           <Route path="/credit/transaction/contract/form" element={<ContractEditForm />} />
           <Route path="/accounts/transaction/entry/receipt" element={<ReceiptVoucher />} />
-          <Route path="*" element={<RouteNotFound />} />
+          <Route path="*" element={<div className="p-20 text-center"><h2 className="text-2xl font-bold text-black">404: Module Not Found</h2></div>} />
         </Route>
       </Routes>
     </Router>

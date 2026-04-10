@@ -10,7 +10,7 @@ import {
 // Import Recharts
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, 
-  PieChart, Pie, Cell, LineChart, Line, CartesianGrid, AreaChart, Area 
+  PieChart, Pie, Cell, LineChart, Line, CartesianGrid, AreaChart, Area, Legend 
 } from 'recharts';
 
 // Components
@@ -21,6 +21,7 @@ import PartyCodeModify from './pages/Credit/Masters/PartyCodeModify';
 import ContractGrid from './pages/credit/transaction/contract/ContractGrid';
 import ContractEditForm from './pages/credit/transaction/contract/ContractEditForm.jsx';
 import ReceiptVoucher from './pages/accounts/transactions/ReceiptVoucher';
+import Ratios from './pages/accounts/reports/ratios.jsx';
 
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem('user');
@@ -28,7 +29,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// 1. THE ENHANCED DUAL-PANE SHELL (MODIFIED)
+// 1. THE ENHANCED DUAL-PANE SHELL
 const MainDashboardLayout = () => {
   const [isPropBoxOpen, setIsPropBoxOpen] = useState(true);
   const savedUser = localStorage.getItem('user');
@@ -36,7 +37,6 @@ const MainDashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Logic to determine if we are in a sub-menu form
   const isFullScreenForm = location.pathname.includes('/contract/form') || 
                            location.pathname.includes('/receipt');
 
@@ -47,13 +47,10 @@ const MainDashboardLayout = () => {
 
   return (
     <div style={calibriBlackStyle} className="h-screen bg-[#F0F2F5] flex flex-col overflow-hidden">
-      
-      {/* HIDE NAVBAR ON SUB-MENUS */}
       {!isFullScreenForm && (
         <TopNavbar menuTree={userData?.menuTree || []} userData={userData} />
       )}
 
-      {/* BACK NAVIGATION BAR: Only visible when Nav is hidden */}
       {isFullScreenForm && (
         <div className="bg-white border-b border-black/60 px-4 py-2 flex items-center shadow-sm z-[110]">
           <button 
@@ -71,7 +68,6 @@ const MainDashboardLayout = () => {
 
       <div className="flex flex-1 overflow-hidden relative">
         <main className="flex-1 overflow-y-auto transition-all duration-500 ease-in-out bg-[#F0F2F5]">
-          {/* If FullScreen, we remove the padding and the white rounded container */}
           <div className={`w-full h-full ${isFullScreenForm ? 'p-0' : 'p-6'}`}>
             <div className={`${isFullScreenForm ? 'bg-transparent' : 'p-8 bg-white rounded-2xl border border-gray-300 shadow-xl'} min-h-full`}>
               <Outlet /> 
@@ -79,7 +75,6 @@ const MainDashboardLayout = () => {
           </div>
         </main>
 
-        {/* HIDE SIDEBAR ON SUB-MENUS */}
         {!isFullScreenForm && (
           <>
             <button 
@@ -131,8 +126,8 @@ const MainDashboardLayout = () => {
                   </section>
 
                   <section>
-                    <p className="text-[12px] font-bold text-black uppercase tracking-widest mb-4 flex items-center gap-2">
-                      <CheckSquare size={14} className="text-[#7C3AED]" /> Tasks Assigned
+                    <p className="text-[12px] font-black text-black uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <CheckSquare size={14} className="text-[#7C3AED]" /> Task Management
                     </p>
                     <div className="space-y-3">
                       {[
@@ -141,18 +136,29 @@ const MainDashboardLayout = () => {
                         { task: "Update contact details for case 14600", priority: "Low" }
                       ].map((item, i) => {
                         const getPriorityStyles = (p) => {
-                          if (p === 'High') return 'bg-rose-600 text-white';
-                          if (p === 'Medium') return 'bg-[#D97706] text-white';
-                          return 'bg-[#059669] text-white';
+                          if (p === 'High') return 'bg-rose-600 text-white border-rose-700';
+                          if (p === 'Medium') return 'bg-[#D97706] text-white border-amber-700';
+                          return 'bg-[#059669] text-white border-emerald-700';
                         };
+
                         return (
-                          <div key={i} className="p-4 bg-white border border-gray-300 rounded-xl hover:shadow-md transition-shadow group">
-                            <div className="flex justify-between items-start mb-2">
-                              <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-md border uppercase tracking-wider ${getPriorityStyles(item.priority)}`}>
+                          <div key={i} className="p-3 bg-white border border-gray-300 rounded-lg hover:shadow-md transition-shadow group">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className={`text-[10px] font-black px-2 py-0.5 rounded border uppercase tracking-wider ${getPriorityStyles(item.priority)}`}>
                                 {item.priority}
                               </span>
+                              <div className="flex bg-slate-100 p-0.5 rounded border border-slate-200">
+                                <button className="px-2 py-0.5 text-[10px] font-black uppercase rounded-sm bg-white text-blue-700 shadow-sm border border-slate-200">
+                                  Received
+                                </button>
+                                <button className="px-2 py-0.5 text-[10px] font-black uppercase rounded-sm text-slate-500 hover:text-black transition-colors">
+                                  Sent
+                                </button>
+                              </div>
                             </div>
-                            <p className="text-[13px] font-bold text-black leading-snug">{item.task}</p>
+                            <p className="text-[13px] font-bold text-black leading-tight">
+                              {item.task}
+                            </p>
                           </div>
                         );
                       })}
@@ -169,7 +175,7 @@ const MainDashboardLayout = () => {
   );
 };
 
-// 2. WELCOME DASHBOARD (UNCHANGED)
+// 2. WELCOME DASHBOARD
 const WelcomeDashboard = () => {
   const branchData = [
     { name: 'Jaipur', loans: 450, aum: 120 },
@@ -178,7 +184,10 @@ const WelcomeDashboard = () => {
     { name: 'Salem', loans: 380, aum: 95 },
   ];
   const COLORS = ['#0052CC', '#059669', '#D97706', '#7C3AED'];
-  const disbursementData = [{ d: '1', v: 10 }, { d: '5', v: 32 }, { d: '10', v: 25 }, { d: '15', v: 48 }, { d: '20', v: 35 }, { d: '25', v: 62 }, { d: '30', v: 55 }];
+  const disbursementData = [
+    { d: '1', v: 10 }, { d: '5', v: 32 }, { d: '10', v: 25 }, 
+    { d: '15', v: 48 }, { d: '20', v: 35 }, { d: '25', v: 62 }, { d: '30', v: 55 }
+  ];
   
   const metrics = [
     { label: 'NPA Percentage', count: '2.45%', icon: <AlertCircle size={18} />, bg: 'bg-[#0052CC]', trend: '-0.2%' },
@@ -186,6 +195,64 @@ const WelcomeDashboard = () => {
     { label: 'Repo Inventory', count: '18', icon: <Wallet size={18} />, bg: 'bg-[#059669]', trend: 'Stable' },
     { label: 'Average IRR', count: '14.8%', icon: <TrendingUp size={18} />, bg: 'bg-[#7C3AED]', trend: '+0.5%' },
   ];
+
+  // Modified Custom Legend: Vertical placement for side display
+  // Modified Custom Legend: Single-line label and data for side display
+const CustomPieLegend = ({ payload }) => {
+  return (
+    <div className="flex flex-col gap-2 pl-4 border-l border-gray-100 h-full justify-center">
+      {payload.map((entry, index) => (
+        <div key={`item-${index}`} className="flex items-center gap-2 group">
+          {/* Circular Indicator */}
+          <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: entry.color }} />
+          
+          {/* Label and Data in Single Line */}
+          <div className="flex items-center justify-between w-full gap-4">
+            <span className="text-[11px] font-black text-black uppercase tracking-tighter truncate">
+              {entry.value}
+            </span>
+            <span className="text-[11px] font-black text-blue-700 tabular-nums">
+              {entry.payload.aum}L
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Update the Pie Component within WelcomeDashboard to use this legend
+<div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
+  <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+    <CircleDot size={14} className="text-[#059669]" /> AUM Mix (Cr)
+  </h3>
+  <div className="h-64">
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart>
+        <Pie 
+          data={branchData} 
+          innerRadius={55} 
+          outerRadius={75} 
+          paddingAngle={8} 
+          dataKey="aum"
+          nameKey="name"
+          cx="35%" // Shifted slightly more to the left for a cleaner single-line legend on the right
+        >
+          {branchData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} stroke="none" />)}
+        </Pie>
+        <Tooltip 
+          contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', fontWeight: 'bold' }} 
+        />
+        <Legend 
+          content={<CustomPieLegend />} 
+          layout="vertical" 
+          verticalAlign="middle" 
+          align="right" 
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
+</div>
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -223,36 +290,59 @@ const WelcomeDashboard = () => {
 
       <div className="grid grid-cols-3 gap-6">
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-          <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+          <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
             <LayoutDashboard size={14} className="text-[#0052CC]" /> Active Loans
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={branchData}>
-                <XAxis dataKey="name" fontSize={14} fontWeight="900" axisLine={false} tickLine={false} tick={{ fill: '#000' }} interval={0} />
+                <XAxis dataKey="name" fontSize={11} fontWeight="900" axisLine={false} tickLine={false} tick={{ fill: '#000' }} interval={0} />
                 <Tooltip cursor={{ fill: '#f8f9fa' }} />
-                <Bar dataKey="loans" fill="#0052CC" radius={[4, 4, 0, 0]} barSize={32} />
+                <Bar 
+                  dataKey="loans" 
+                  fill="#0052CC" 
+                  radius={[4, 4, 0, 0]} 
+                  barSize={32}
+                  label={{ position: 'top', fill: '#000', fontSize: 10, fontWeight: 'bold' }} 
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
+
+        {/* PIE CHART WITH RIGHT-SIDE LEGEND */}
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-           <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
-            <CircleDot size={14} className="text-[#059669]" /> AUM Mix
+           <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+            <CircleDot size={14} className="text-[#059669]" /> AUM
           </h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={branchData} innerRadius={65} outerRadius={85} paddingAngle={8} dataKey="aum">
+                <Pie 
+                  data={branchData} 
+                  innerRadius={50} 
+                  outerRadius={75} 
+                  paddingAngle={8} 
+                  dataKey="aum"
+                  nameKey="name"
+                  cx="40%" // Shift pie to the left to make room for right-side legend
+                >
                   {branchData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} stroke="none" />)}
                 </Pie>
                 <Tooltip />
+                <Legend 
+                  content={<CustomPieLegend />} 
+                  layout="vertical" 
+                  verticalAlign="middle" 
+                  align="right" 
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
+
         <div className="bg-white border border-gray-300 rounded-3xl p-6 shadow-md">
-           <h3 className="text-[16px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
+           <h3 className="text-[14px] font-bold text-black uppercase tracking-widest mb-6 flex items-center gap-2">
             <TrendingUp size={14} className="text-[#D97706]" /> Disbursement MTD
           </h3>
           <div className="h-64">
@@ -261,7 +351,15 @@ const WelcomeDashboard = () => {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="d" fontSize={10} fontWeight="bold" axisLine={false} tickLine={false} tick={{fill: '#000'}} />
                 <Tooltip />
-                <Area type="monotone" dataKey="v" stroke="#0052CC" strokeWidth={4} fill="#0052CC" fillOpacity={0.1} />
+                <Area 
+                  type="monotone" 
+                  dataKey="v" 
+                  stroke="#0052CC" 
+                  strokeWidth={4} 
+                  fill="#0052CC" 
+                  fillOpacity={0.1}
+                  label={{ fill: '#0052CC', fontSize: 10, fontWeight: 'bold', offset: 10 }}
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -283,6 +381,7 @@ function App() {
           <Route path="/credit/transaction/contract/edit" element={<ContractGrid />} />
           <Route path="/credit/transaction/contract/form" element={<ContractEditForm />} />
           <Route path="/accounts/transaction/entry/receipt" element={<ReceiptVoucher />} />
+          <Route path="/accounts/reports/ratios" element={<Ratios />} />
           <Route path="*" element={<div className="p-20 text-center"><h2 className="text-2xl font-bold text-black">404: Module Not Found</h2></div>} />
         </Route>
       </Routes>

@@ -166,64 +166,67 @@ const ContractEditForm = () => {
       
       {/* 1. TOP ACTION BAR (Sticky) */}
       <div 
-          className="sticky top-0 bg-white border-b border-black/60 px-4 py-2 flex items-center justify-between shadow-md z-[100]"
-          style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
-        >
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => navigate(-1)} 
-              className="hover:bg-blue-50 p-1.5 rounded-full transition-colors border border-transparent hover:border-black/10"
-            >
-              <ArrowLeft size={18} className="text-black/90" />
-            </button>
+        className="sticky top-0 bg-white border-b border-black/60 px-4 py-2 flex items-center justify-between shadow-md z-[100]"
+        style={{ fontFamily: 'Calibri, Candara, Segoe UI, Optima, Arial, sans-serif' }}
+      >
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="hover:bg-blue-50 p-1.5 rounded-full transition-colors border border-transparent hover:border-black/10"
+          >
+            <ArrowLeft size={18} className="text-black/90" />
+          </button>
+          
+          <h1 className="text-[16px] font-bold text-blue-900 whitespace-nowrap">
+            Application Number — #100254
+          </h1>
+          
+          <div className="h-6 w-[1px] bg-black/20 mx-2"></div>
+          
+          <div className="flex items-center gap-6">
+            {/* Proposal Category - Light Green */}
+            <div className="flex items-center gap-2">
+              <span className="text-[14px] font-black text-black/80 uppercase">Proposal Category:</span>
+              <select 
+                value={proposalCat} 
+                onChange={(e) => setProposalCat(e.target.value)} 
+                className="text-[14px] font-bold border border-green-600/40 rounded-sm px-2 outline-none focus:border-green-600 bg-green-50 h-8 min-w-[60px] text-green-800"
+              >
+                <option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
             
-            <h1 className="text-[16px] font-bold text-blue-900 whitespace-nowrap">
-              Application Number — #100254
-            </h1>
-            
-            <div className="h-6 w-[1px] bg-black/20 mx-2"></div>
-            
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <span className="text-[14px] font-black text-black/80 uppercase">Proposal Category:</span>
-                <select 
-                  value={proposalCat} 
-                  onChange={(e) => setProposalCat(e.target.value)} 
-                  className="text-[14px] font-normal border border-black/60 rounded-sm px-2 outline-none focus:border-blue-600 bg-white h-7 min-w-[50px] text-black/90"
-                >
-                  <option>A</option><option>B</option><option>C</option>
-                </select>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <span className="text-[14px] font-black text-black/80 uppercase">Risk Level:</span>
-                <select 
-                  value={riskLevel} 
-                  onChange={(e) => setRiskLevel(e.target.value)} 
-                  className={`text-[14px] font-bold border border-black/60 rounded-sm px-2 outline-none bg-white h-7 ${
-                    riskLevel === 'High' ? 'text-red-600' : riskLevel === 'Medium' ? 'text-amber-600' : 'text-emerald-600'
-                  }`}
-                >
-                  <option>Low</option><option>Medium</option><option>High</option>
-                </select>
-              </div>
+            {/* Risk Level - Light Orange */}
+            <div className="flex items-center gap-2">
+              <span className="text-[14px] font-black text-black/80 uppercase">Risk Level:</span>
+              <select 
+                value={riskLevel} 
+                onChange={(e) => setRiskLevel(e.target.value)} 
+                className="text-[14px] font-bold border border-orange-600/40 rounded-sm px-2 outline-none focus:border-orange-600 bg-orange-50 h-8 text-orange-800"
+              >
+                <option>Low</option><option>Medium</option><option>High</option>
+              </select>
             </div>
           </div>
-
-          <div className="flex gap-2">
-            <button className="px-3 py-1 bg-white text-red-600 border border-red-600 text-[13px] font-normal flex items-center gap-1.5 hover:bg-red-50 rounded-sm transition-all">
-              <RotateCcw size={14} /> MOVE TO LOS
-            </button>
-            
-            <button className="px-3 py-1 bg-white text-blue-800 border border-blue-800 text-[13px] font-normal flex items-center gap-1.5 hover:bg-blue-50 rounded-sm transition-all">
-              <Save size={14} /> SAVE DRAFT
-            </button>
-            
-            <button className="px-4 py-1 bg-blue-800 text-white border border-blue-900 text-[13px] font-normal flex items-center gap-1.5 hover:bg-blue-900 rounded-sm shadow-sm transition-all">
-              <CheckCircle size={14} /> SUBMIT & CREATE CONTRACT
-            </button>
-          </div>
         </div>
+
+        <div className="flex gap-2 items-center">
+          {/* Move to LOS - Light Blue */}
+          <button className="px-4 py-1.5 bg-blue-50 text-blue-700 border-2 border-blue-500 text-[14px] font-black uppercase flex items-center gap-1.5 hover:bg-blue-100 rounded-sm transition-all">
+            <RotateCcw size={15} /> MOVE TO LOS
+          </button>
+          
+          {/* Save Draft - Yellow Light */}
+          <button className="px-4 py-1.5 bg-yellow-50 text-yellow-700 border-2 border-yellow-500 text-[14px] font-black uppercase flex items-center gap-1.5 hover:bg-yellow-100 rounded-sm transition-all">
+            <Save size={15} /> SAVE DRAFT
+          </button>
+          
+          {/* Submit - Light Green and Larger Size */}
+          <button className="px-8 py-1.5 bg-green-100 text-green-700 border-2 border-green-500 text-[15px] font-black uppercase flex items-center gap-2 hover:bg-green-200 rounded-sm shadow-md transition-all">
+            <CheckCircle size={18} /> SUBMIT APPLICATION
+          </button>
+        </div>
+      </div>
 
       {/* 2. TAB ROW (Sticky - Offset by Top Bar height) */}
     <div className="sticky top-[37px] bg-white border-b border-black/60 px-2 pt-2 flex items-end gap-1.5 shadow-sm z-[90]">

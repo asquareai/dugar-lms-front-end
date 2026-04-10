@@ -205,7 +205,7 @@ const ReceiptVoucher = () => {
                           <td colSpan="5" className="p-3 border-r border-black">
                             <div className="flex items-center gap-3 px-2">
                               <Info size={16} className="text-black" />
-                              <input placeholder="REMARKS..." className="w-full bg-transparent text-[14px] font-black text-black outline-none uppercase placeholder:text-black-80" />
+                              <input placeholder="Narration..." className="w-full bg-transparent text-[14px] font-black text-black outline-none uppercase placeholder:text-black-80" />
                             </div>
                           </td>
                         </tr>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import NavItem from './NavItem';
 import MobileSidebar from './MobileSideBar';
 import { Menu, Bell, User } from 'lucide-react';
@@ -8,9 +8,30 @@ import logo from '../assets/logo.png';
 const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // BULLETPROOF SORTING LOGIC
+  const sortedMenu = useMemo(() => {
+    if (!menuTree || !Array.isArray(menuTree)) return [];
+    
+    // Create a copy to avoid mutating props
+    return [...menuTree].sort((a, b) => {
+      // Your NavItem uses item.menuName, so we must check that property
+      const nameA = (a.menuName || a.menu_name || "").toLowerCase().trim();
+      const nameB = (b.menuName || b.menu_name || "").toLowerCase().trim();
+
+      // 1. FORCE 'DASHBOARD' TO THE FRONT (-1 moves it to the start)
+      if (nameA === 'dashboard') return -1;
+      if (nameB === 'dashboard') return 1;
+
+      // 2. FOR EVERYTHING ELSE, USE THE DB DISPLAY ORDER
+      const orderA = a.displayOrder || a.display_order || 0;
+      const orderB = b.displayOrder || b.display_order || 0;
+      
+      return orderA - orderB;
+    });
+  }, [menuTree]);
+
   return (
     <>
-      {/* Height increased from h-12 to h-[72px] (50% increase) */}
       <nav className="w-full h-[72px] bg-gradient-to-b from-white to-blue-100 border-b-2 border-blue-300 px-3 md:px-6 flex items-center justify-between sticky top-0 z-[100] shadow-md">
         
         {/* LEFT: Mobile Toggle & Brand */}
@@ -23,12 +44,7 @@ const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
           </button>
 
           <div className="flex items-center gap-4 pr-3 md:pr-6 md:border-r border-blue-300/40 h-12 shrink-0">
-            <img 
-                src={logo} 
-                alt="Dugar Loan Edge Logo" 
-                className="h-10 w-auto object-contain" 
-            />
-            {/* ENLARGED TWO-LINE BRANDING */}
+            <img src={logo} alt="Dugar Logo" className="h-10 w-auto object-contain" />
             <div className="flex flex-col justify-center leading-[0.95]">
               <span className="text-[18px] font-black text-black uppercase tracking-tighter" style={{ fontFamily: 'Calibri, sans-serif' }}>
                 Dugar
@@ -39,18 +55,16 @@ const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Using the Sorted Menu */}
           <div className="hidden lg:flex items-center h-full gap-1">
-            {menuTree?.sort((a, b) => a.displayOrder - b.displayOrder).map((item) => (
+            {sortedMenu.map((item) => (
               <NavItem key={item.menuId} item={item} depth={0} />
             ))}
           </div>
         </div>
 
-        {/* RIGHT: Compact User Info & Notifications */}
+        {/* RIGHT: User & Notifications */}
         <div className="flex items-center gap-2 md:gap-4">
-          
-          {/* Notifications Bell */}
           <button className="p-2 text-[#0052CC] hover:bg-white rounded-full transition-all relative border border-blue-200/50 bg-white/30">
             <Bell size={20} strokeWidth={2.5} />
             {notificationsCount > 0 && (
@@ -60,7 +74,6 @@ const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
             )}
           </button>
 
-          {/* User Info */}
           <div className="flex items-center gap-3 pl-3 border-l-2 border-blue-300/40 h-10">
             <div className="flex flex-col items-end leading-tight">
               <span className="text-[13px] font-black text-black uppercase">
@@ -74,7 +87,6 @@ const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
                 {userData?.fullName?.charAt(0) || <User size={18} />}
             </div>
           </div>
-
         </div>
       </nav>
 
@@ -83,7 +95,7 @@ const TopNavbar = ({ menuTree, userData, notificationsCount = 5 }) => {
         <MobileSidebar 
             isOpen={isMobileOpen} 
             onClose={() => setIsMobileOpen(false)} 
-            menuTree={menuTree}
+            menuTree={sortedMenu} 
         />
       )}
     </>
